@@ -1,4 +1,3 @@
 # paca
-# Root
-# lol
-mustis
+
+Django==2.0.4
