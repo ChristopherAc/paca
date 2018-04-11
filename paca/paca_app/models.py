@@ -6,6 +6,9 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class UserManager(BaseUserManager):
+    '''
+        https://www.fomfus.com/articles/how-to-use-email-as-username-for-django-authentication-removing-the-username
+    '''
     """Define a model manager for User model with no username field."""
 
     use_in_migrations = True

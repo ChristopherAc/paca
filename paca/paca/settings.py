@@ -121,3 +121,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 # Ersätter djangos User modell med vår egna custom model.
 AUTH_USER_MODEL = 'paca_app.User'
+
+# sidan som användaren ska navigeras till efter lyckad inloggning.
+LOGIN_REDIRECT_URL = '/'
