@@ -7,3 +7,7 @@ def index(request):
         Är användaren inloggad så visas kalendern. '''
 
     return render(request,'index.html')
+
+@login_required
+def settings(request):
+    return HttpResponse('välkommen till inställningar!')
