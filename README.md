@@ -1,24 +1,34 @@
 # paca
 
+Krav
 Django==2.0.4
+Python 3
 
-steg för att starta:
-packa upp zip filen
+Observera att vissa kommandon kräver att man skriver 'python' eller 'python3' innan sitt kommando. Detta beror helt på din installation av python.
 
-1 installera django på din dator
+exempel:
+  python3 manage.py runserver
+  python manage.py runserver
+  manage.py runserver
+
+  ovan är 3 fungerande kommandon det är något ni får testa lite på egen hand vad som gäller för er installation.
+
+##steg för att starta:
+
+1 packa upp zip filen.
+
+2 installera django på din dator.
   'pip install django'
 
-2 Navigera till mappen där filen manage.py ligger i komandotolken (plats_för_mappen_på_din_din_dator/paca/paca)
+3 Navigera till mappen där filen manage.py ligger (paca/paca). Gör detta genom kommandotolken (den ligger i paca/paca)
 
-3.Skriv in kommandot manage.py migrate
+4.Skriv in kommandot 'manage.py migrate'.
 
-4 skapa en användare: manage.py createsuperuser
+5 skapa en användare: 'manage.py createsuperuser'
 
-5 skriv in önskad e-mail och önskat lösenord när det efterfrågas.
+6 skriv in önskad e-mail och önskat lösenord när det efterfrågas.
 
-6 när du har fått bekräftat att en ny användare har skapats
-
-7 skriv in mange.py runserver
+7 när du har fått bekräftat att en ny användare har skapats skriv in 'mange.py runserver'.
 
 8 gå till http://127.0.0.1:8000/
 
