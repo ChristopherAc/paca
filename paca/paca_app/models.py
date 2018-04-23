@@ -41,10 +41,15 @@ class UserManager(BaseUserManager):
 
         return self._create_user(email, password, **extra_fields)
 
-
 class User(AbstractUser):
     """User model."""
 
+    has_logged_in = models.BooleanField(default=False)
+    phone = models.CharField(max_length=12)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    manager = models.BooleanField(default=False)
+    # Nedan är för att förändra grundklassen som är inbyggd i Django
     username = None
     email = models.EmailField(_('email address'), unique=True)
 
@@ -52,3 +57,22 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
     objects = UserManager()
+
+    def __str__(self):
+        return "{} {}".format(self.first_name, self.last_name)
+
+class Message(models.Model):
+    is_read = models.BooleanField(default=False)
+    text = models.TextField(max_length=200)
+    sent_from = models.ForeignKey('User', on_delete=models.CASCADE, related_name='sent_from')
+    sent_to = models.ForeignKey('User', on_delete=models.CASCADE, related_name='sent_to')
+    sent_time = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return " from: {} to {} on: {}".format(self.sent_from, self.sent_to, self.sent_time)
+
+class Job(models.Model):
+    name = models.CharField(max_length=15)
+    spots = models.IntegerField()
+    manager = models.ManyToManyField(User)
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
