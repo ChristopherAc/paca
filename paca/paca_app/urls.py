@@ -3,5 +3,8 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('settings/', views.settings, name='settings')
+    # inställningar
+    path('settings/', views.settings, name='settings'),
+    # Meddelande
+    path('message', views.message, name='message')
 ]
