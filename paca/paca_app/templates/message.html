@@ -1,18 +1,5 @@
-<!doctype html>
-<html lang="sv">
-  <head>
-    <title>
-      PACA - login
-    </title>
-    <meta charset="utf-8">
-  </head>
-  <body>
-    <h1>PACA</h1>
-    <h2>Message<h2>
-    <a href="{% url 'logout' %}">Logga ut</a>
-    <a href="/settings">Inställningar</a>
-    <a href="message">Meddelande</a>
-
+{% extends "base.html" %}
+    {% block content %}
     <form method="POST" action=" ">
       {% csrf_token %}
       {{ form }}
@@ -25,9 +12,8 @@
     {%endfor %}
 
     <p>Skickade</p>
-    ,{% for msg in något_annat %}
+    {% for msg in något_annat %}
       <h3>{{msg.sent_from}}</h3>
       <p>{{msg.text}}</p>
     {%endfor %}
-  </body>
-</html>
+  {% endblock %}

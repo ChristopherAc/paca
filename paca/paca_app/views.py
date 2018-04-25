@@ -11,7 +11,7 @@ def index(request):
 
 @login_required
 def settings(request):
-    return HttpResponse('välkommen till inställningar!')
+    return render(request, 'settings.html')
 
 @login_required
 def message(request):

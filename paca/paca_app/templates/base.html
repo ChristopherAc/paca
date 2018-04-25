@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="sv">
+  <head>
+    <title>
+      PACAAs  {% block title %} - login {% endblock %}
+    </title>
+    <style>
+      header{
+        height:8vh;
+        width:100vw;
+        background:blue;
+      }
+    </style>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <header>
+      <nav>
+        <a href="{% url 'logout' %}">Logga ut</a>
+        <a href="/settings">Inställningar</a>
+        <a href="message">Meddelande</a>
+      </nav>
+    </header>
+    {% block content %}
+    {% endblock %}
+  </body>
+</html>
