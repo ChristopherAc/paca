@@ -48,7 +48,6 @@ class User(AbstractUser):
     phone = models.CharField(max_length=12)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
-    manager = models.BooleanField(default=False)
     # Nedan är för att förändra grundklassen som är inbyggd i Django
     username = None
     email = models.EmailField(_('email address'), unique=True)
@@ -60,6 +59,10 @@ class User(AbstractUser):
 
     def __str__(self):
         return "{} {}".format(self.first_name, self.last_name)
+
+class Manager(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    manages = models.ManyToManyField(User, related_name='manages')
 
 class Message(models.Model):
     is_read = models.BooleanField(default=False)

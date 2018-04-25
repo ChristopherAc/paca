@@ -10,6 +10,7 @@ from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.utils.translation import ugettext_lazy as _
 
 from .models import User
+from .models import Manager
 from .models import Message
 
 
@@ -36,4 +37,8 @@ class UserAdmin(DjangoUserAdmin):
 
 @admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(Manager)
+class ManagerAdmin(admin.ModelAdmin):
     pass
