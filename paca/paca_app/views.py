@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.decorators import login_required
 from .forms import MessageForm
 from .models import Message
@@ -7,6 +7,10 @@ from .models import Message
 def index(request):
     ''' Första sidan, login sida om användaren inte är inloggad.
         Är användaren inloggad så visas kalendern. '''
+    if request.user.has_logged_in == False:
+        return redirect('changepassword/')
+#        request.user.has_logged_in = True
+
     return render(request,'index.html')
 
 @login_required
