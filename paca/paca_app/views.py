@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
 from .forms import MessageForm
 from .models import Message
 
@@ -36,4 +37,13 @@ def message(request):
 
 @login_required
 def change_password(request):
-    return render(request, 'change_password.html')
+    form = PasswordChangeForm(request.user, request.POST)
+    if form.is_valid():
+        user = form.save()
+        request.user.has_logged_in = True
+        request.user.save()
+        return redirect('/')
+
+
+
+    return render(request, 'change_password.html', {'form':form})
