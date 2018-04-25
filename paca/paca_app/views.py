@@ -29,3 +29,7 @@ def message(request):
     messages = Message.objects.filter(sent_to=request.user)
     något_annat = Message.objects.filter(sent_from=request.user)
     return render(request,'message.html',{'form':form,'messages':messages,'något_annat':något_annat})
+
+@login_required
+def change_password(request):
+    return render(request, 'change_password.html')

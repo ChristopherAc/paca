@@ -6,5 +6,7 @@ urlpatterns = [
     # inställningar
     path('settings/', views.settings, name='settings'),
     # Meddelande
-    path('message', views.message, name='message')
+    path('message', views.message, name='message'),
+    #
+    path('changepassword/', views.change_password, name='changepassword')
 ]
