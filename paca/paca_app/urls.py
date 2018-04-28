@@ -4,9 +4,11 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     # inställningar
-    path('settings/', views.settings, name='settings'),
+    path('settings', views.settings, name='settings'),
     # Meddelande
     path('message', views.message, name='message'),
-    #
-    path('changepassword/', views.change_password, name='changepassword')
+    # Ändra lösenord ( första inloggningen )
+    path('changepassword', views.change_password, name='changepassword'),
+    # lägg till en arbetsgivare
+    path('add_user', views.add_user, name='add_user')
 ]

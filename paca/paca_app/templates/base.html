@@ -5,10 +5,15 @@
       PACAAs  {% block title %} - login {% endblock %}
     </title>
     <style>
+      body{
+        margin:0;
+        text-align:center;
+      }
       header{
+
         height:8vh;
         width:100vw;
-        background:blue;
+        background:#dadada;
       }
     </style>
     <meta charset="utf-8">
@@ -18,7 +23,8 @@
       <nav>
         <a href="{% url 'logout' %}">Logga ut</a>
         <a href="/settings">Inställningar</a>
-        <a href="message">Meddelande</a>
+        <a href="/message">Meddelande</a>
+        <a href="/add_user">Lägg till användare</a>
       </nav>
     </header>
     {% block content %}
