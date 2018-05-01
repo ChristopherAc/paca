@@ -62,7 +62,9 @@ class User(AbstractUser):
 
 class Manager(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    manages = models.ManyToManyField(User, related_name='manages')
+    manages = models.ManyToManyField(User, blank=True, related_name='manages')
+    def __str__(self):
+        return "{} {}".format(self.user.first_name, self.user.last_name)
 
 class Message(models.Model):
     is_read = models.BooleanField(default=False)
