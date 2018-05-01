@@ -3,8 +3,8 @@
 {% block content %}
   <form method="post" action=" ">
     {% csrf_token %}
-    <label for="arbetsgivare">Arbetsgivare</a>
-    <input type="checkbox" name=arbetsgivare>
+    <label for="ismanager">Arbetsgivare</a>
+    <input type="checkbox" name=ismanager value="ismanager">
     {{form.as_p}}
     <input type="submit" value="Lägg till ">
   </form>

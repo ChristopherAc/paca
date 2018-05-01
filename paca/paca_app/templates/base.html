@@ -19,6 +19,7 @@
     <meta charset="utf-8">
   </head>
   <body>
+{% block header %}
     <header>
       <nav>
         <a href="{% url 'logout' %}">Logga ut</a>
@@ -27,6 +28,7 @@
         <a href="/add_user">Lägg till användare</a>
       </nav>
     </header>
+{% endblock %}
     {% block content %}
     {% endblock %}
   </body>
