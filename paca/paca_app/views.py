@@ -102,3 +102,12 @@ def add_user(request):
             form = request.method(request.POST)
 
     return render(request, 'add_user.html',{'form':form})
+
+def forgot_password(request):
+    if request.method == 'POST':
+        try:
+            get_email = request.POST.get('Email')
+            User.objects.get(email=get_email)
+        except User.DoesNotExist:
+            get_email = None
+    return render(request, 'forgot_password.html')
