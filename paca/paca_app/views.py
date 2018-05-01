@@ -70,7 +70,7 @@ def add_user(request):
             password = User.objects.make_random_password()
             # spara det genererade lösenodet genom djangos set_password()
             new_user.set_password(password)
-            # Spara anvndaren
+            # Spara användaren
             new_user.save()
 
             if request.POST.get('ismanager') == 'ismanager':
@@ -104,7 +104,27 @@ def forgot_password(request):
     if request.method == 'POST':
         try:
             get_email = request.POST.get('Email')
-            User.objects.get(email=get_email)
+            get_user = User.objects.get(email=get_email)
+
+            new_password = User.objects.make_random_password()
+            get_user.set_password(new_password)
+            get_user.save()
+
+            get_managers = Manager.objects.filter(manages=get_user)
+            for manager in get_managers:
+                print(manager)
+
+            for manager in get_managers:
+                password_message = Message(
+                    sent_from=get_user,
+                    sent_to=manager.user,
+                    text="{} {} Har bett om ett nytt lösenord. Nytt lösenord är {}".format(
+                        get_user.first_name,
+                        get_user.last_name,
+                        new_password
+                    ))
+                password_message.save()
+            return redirect('/')
         except User.DoesNotExist:
             get_email = None
     return render(request, 'forgot_password.html')
