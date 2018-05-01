@@ -10,5 +10,7 @@ urlpatterns = [
     # Ändra lösenord ( första inloggningen )
     path('changepassword/', views.change_password, name='changepassword'),
     # lägg till en arbetsgivare
-    path('add_user', views.add_user, name='add_user')
+    path('add_user', views.add_user, name='add_user'),
+    #Glömt lösenord
+    path('forgot_password/', views.forgot_password, name='forgot_password')
 ]
