@@ -5,6 +5,7 @@ from .forms import MessageForm
 from .models import Message
 from .forms import UserForm
 from .models import User
+from .models import Manager
 
 @login_required
 def index(request):
@@ -72,7 +73,12 @@ def add_user(request):
             # Spara anvndaren
             new_user.save()
 
-            # TODO kontollera om <input name='manager'> är ikryssad.
+            if request.POST.get('ismanager') == 'ismanager':
+                manager = Manager(user = new_user)
+                manager.save()
+
+
+
 
 
             # Skapa ett meddelande från inloggad användare till sig själv,
