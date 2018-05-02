@@ -1,6 +1,7 @@
 from django.forms import ModelForm
 from .models import Message
 from .models import User
+from .models import Job
 
 # Form för Messages
 class MessageForm(ModelForm):
@@ -23,3 +24,13 @@ class UserForm(ModelForm):
         model = User
 
         fields = ['email', 'first_name', 'last_name', 'phone']
+
+class JobForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(JobForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
+    class Meta:
+        model = Job
+
+        exclude = ['manager', 'worker']

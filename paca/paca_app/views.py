@@ -8,32 +8,12 @@ from .forms import UserForm
 from .models import User
 from .models import Manager
 from .models import Job
+from .forms import JobForm
 
-<<<<<<< HEAD
-
-def ajax_calendar(request):
-    # if request.method == "POST":
-    #     return HttpResponse("POST")
-    # return HttpResponse("TEST SIDA FÖR VALFRI REQUEST")
-    # if request.is_ajax():
-    #     print("lol")
-    jobs = Job.objects.all().values()
-    job_list = list(jobs)
-    return JsonResponse(job_list, safe=False)
-=======
 @login_required
 def ajax_calendar(request):
     if request.is_ajax():
         print("lol")
-@login_required
-def index(request):
-    # jobs = Job.objects.all().values()
-    # job_list = list(jobs)
-    # return JsonResponse(job_list, safe=False)
->>>>>>> c4345252b0f9f4b11e843795590957af87014725
-    # f = file('static/test.json', 'w')
-    # f.write('test')
-    # f.close()
 
 @login_required
 def index(request):
@@ -41,13 +21,57 @@ def index(request):
         Är användaren inloggad så visas kalendern. '''
     if request.user.has_logged_in == False:
         return redirect('changepassword/')
-#        request.user.has_logged_in = True
-
     return render(request,'index.html')
 
 @login_required
 def settings(request):
     return render(request, 'settings.html')
+
+@login_required
+def jobs(request):
+    try:
+        manager = Manager.objects.get(user=request.user)
+    except:
+        manager= False
+
+    if manager:
+        type = "manager"
+        jobForm = JobForm(request.POST or None)
+        if request.method == 'POST':
+            if jobForm.is_valid():
+                new_job = jobForm.save()
+                new_job.manager.add(manager)
+                new_job.save()
+
+        jobs = Job.objects.filter(manager=manager)
+        return render(request, 'jobs.html',{'jobForm':jobForm,'jobs':jobs, 'type':type})
+
+    else:
+        type = "worker"
+        users_manager = Manager.objects.get(manages=request.user)
+        jobs = Job.objects.filter(manager=users_manager).exclude(worker=request.user)
+        bookings = Job.objects.filter(manager=users_manager).filter(worker=request.user)
+        return render(request, 'jobs.html',{'jobs':jobs, 'type':type,'bookings':bookings})
+
+@login_required
+def jobs_delete(request,id):
+    try:
+        manager = Manager.objects.get(user=request.user)
+    except:
+        return redirect('/jobs')
+
+    target = Job.objects.get(id=id)
+    target.delete()
+    return redirect('/jobs')
+
+@login_required
+def jobs_book(request, id):
+    user=request.user
+    job = Job.objects.get(id=id)
+    job.worker.add(user)
+    job.save()
+    return redirect('/jobs')
+
 @login_required
 def message(request):
     # Skapar en Modelform

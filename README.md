@@ -1,5 +1,49 @@
 # paca
 
+## Instruktioner
+
+## Användare
+användarnamn: stoff@paca.se
+lösenord:     qwer1234
+notering:     Är en arbetsledare/Manager i systemet.
+
+användarnamn: Anders@paca.se
+lösenord:     qwer1234
+notering:     Är en arbetsledare/Manager i systemet.
+
+användarnamn: erik@paca.se
+lösenord:     qwer1234
+notering:     Anställd/worker i systemet. har stoff@paca.se som arbetsledare.
+
+användarnamn: simon@paca.se
+lösenord:     qwer1234
+notering:     Anställd/worker i systemet. har stoff@paca.se som arbetsledare.
+
+användarnamn: per@paca.se
+lösenord:     qwer1234
+notering:     Anställd/worker i systemet. har stoff@paca.se som arbetsledare.
+              Denna användaren har aldrig varit inloggad tidigare. Därför kommer en ändring av lösenord ske vid första inloggningen.
+
+användarnamn: anna@paca.se
+lösenord:     qwer1234
+notering:     Anställd/worker i systemet. har anders@paca.se som arbetsledare.
+
+användarnamn: karin@paca.se
+lösenord:     qwer1234
+notering:     Anställd/worker i systemet. har anders@paca.se som arbetsledare.
+
+användarnamn: lisa@paca.se
+lösenord:     qwer1234
+notering:     Anställd/worker i systemet. har anders@paca.se som arbetsledare.
+              Denna användaren har aldrig varit inloggad tidigare. Därför kommer en ändring av lösenord ske vid första inloggningen.
+
+användarnamn: admin@paca.se
+lösenord:     qwer1234
+notering:     Användaren är en superuser, Innebär att du kan logga in på
+              "http://127.0.0.1:8000/admin/" och hantera objekt i databasen.
+              Detta är inte en del av systemet utan används för vår del mest i utvecklings och testningssyfte. Det går bra att prova på om man är nyfiken dock!.
+
+
 Krav
 Django==2.0.4
 Python 3

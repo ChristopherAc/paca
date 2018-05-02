@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block head %}
+  <style>
+    td{
+      padding:0 10px;
+      font-size:1.4em;
+    }
+    .free{
+      background:#1ea71e7a;
+      color:grey;
+    }
+  </style>
+{% endblock %}
+
+    {% block content %}
+    {% if type == 'manager' %}
+    <form method="POST" style="width:20vw;margin-top:10vh;">
+      {% csrf_token %}
+      {{bookingForm.as_p}}
+        <input type="submit">
+    </form>
+    {% endif %}
+    <table>
+      {% for job in jobs %}
+      {% if job.spots_left %}
+        <tr class="free" style="border-bottom:2px solid #1ea71e;">
+      {% else %}
+        <tr>
+      {% endif %}
+          <td>{{job.name}}</td>
+          <td>{{job.start_time}}</td>
+          <td>{{job.end_time}}</td>
+          <td>{{job.spots}}</td>
+
+          {% if type == 'worker' %}
+          <td>
+            {% if job.spots_left %}
+                <a href="jobs/book/{{job.id}}">Boka</a>
+            {% endif %}
+          </td>
+          {% endif %}
+          {% if type == 'manager' %}
+            <td>
+            <a href="jobs/delete/{{job.id}}">Ta bort pass</a>
+            </td>
+          {% endif %}
+        </tr>
+      {% endfor %}
+      <h2>Bokade pass</h1>
+      {% for booking in bookings %}
+      <tr>
+        <td>{{booking.name}}</td>
+        <td>{{booking.start_time}}</td>
+        <td>{{booking.end_time}}</td>
+        <td>{{booking.spots}}</td>
+      </tr>
+      {% endfor %}
+    </tabke>
+
+  {% endblock %}

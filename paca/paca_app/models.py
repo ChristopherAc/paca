@@ -78,9 +78,19 @@ class Message(models.Model):
 class Job(models.Model):
     name = models.CharField(max_length=30)
     spots = models.IntegerField()
-    manager = models.ManyToManyField(Manager)
+    manager = models.ManyToManyField('Manager', blank=True, related_name='manager')
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
-    workers = models.ManyToManyField(User)
+    worker = models.ManyToManyField(User, blank=True, related_name='worker')
+
+    def spots_left(self):
+        spots = self.spots
+        workers = self.worker.count()
+
+        if workers < spots:
+            return True
+        else:
+            return False
+
     def __str__(self):
         return "{}".format(self.name)
