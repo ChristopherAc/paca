@@ -43,8 +43,8 @@ $(document).ready(function() {
 
        // Changed default colors to make delete links
        // more obvious
-       color: "lightBlue",
-       textColor: "black"
+       color: "darkBlue",
+       textColor: "white"
       };
 
 
@@ -78,9 +78,108 @@ $(document).ready(function() {
  );
 
 });
+// Create Event Dialog JavaScript **************************************
+// var start = "2017-01-01";
+// var end = "2019-12-30";
+//
+// $.ajax({
+//   url: "/ajax_calendar",
+//   dataType: "JSON",
+//   data: {
+//     start: start,
+//     end: end
+//   }
+// })
+// .done(function(data) {
+//   events: [
+//     {
+//       start: "2018-04-03",
+//       end: "2018-04-04"
+//     }
+//   ]
+// }).fail(function(data) {
+//   // Något gick snett
+//   alert("Shit fuck up");
+// })
+
+
+
+
+
+    // $('#calCreateEventDialog').dialog({
+    //     resizable: false,
+    //     autoOpen: false,
+    //     modal: true,
+    //     width: 500,
+    //     buttons: {
+    //         Create: function() {
+    //
+    //                 // Get start and end dates from data payload
+    //
+    //                 var start = $(this).data('start');
+    //                 var end = $(this).data('end');
+    //                 var eventTitle = $("#eventTitle").val().trim();
+    //
+    //                 // Build event
+    //                 var event = {
+    //                  title: eventTitle != "" ? eventTitle:"Arbetspass",
+    //                  color: 'DeepSkyBlue',
+    //                  textColor: 'black',
+    //                  start: start.format(),
+    //                  end: end.format()
+    //                 }
+    //
+    //                 // Save event locally in fullCalendar's event array
+    //                 // and in database
+    //
+    //                 saveEvent(event);
+    //
+    //
+    //
+    //             // Unselect event. Selection trail will disappear.
+    //
+    //             $calendar.fullCalendar('unselect');
+    //
+    //             // Close dialog
+    //             $(this).dialog('close');
+    //
+    //         },
+    //
+    //         Cancel: function() {
+    //             $(this).dialog('close');
+    //         }
+    //     }
+    // });
+// // AJAX CALL SAVE EVENT //
+
+// END //
 
 // Global instance of the calendar to be used in other scripts.
 var $calendar = $("#calendar").fullCalendar("getCalendar");
+
+
+// events: function(start, end, timezone, callback) {
+//   $.ajax({
+//     url: "/ajax_calendar",
+//     dataType: "JSON",
+//     data: {
+//       title: title,
+//       start: start,
+//       end: end
+//     },
+//     success: function(data) {
+//       var events = [];
+//       $(data).find('event').each(function() {
+//         events.push({
+//           title: $(this).attr('name'),
+//           start: $(this).attr('start_time'), // will be parsed
+//           end: $(this).attr('end_time')
+//         });
+//       });
+//       callback(events);
+//     }
+//   });
+// }
 
 // Removes event with ID eventID from calendar
 function remove_event(eventID){
