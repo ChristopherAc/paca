@@ -15,12 +15,12 @@ def ajax_calendar(request):
         print("lol")
 
 def index(request):
-    jobs = Job.objects.all().values()
-    job_list = list(jobs)
-    return JsonResponse(job_list, safe=False)
-    f = file('static/test.json', 'w')
-    f.write('test')
-    f.close()
+    # jobs = Job.objects.all().values()
+    # job_list = list(jobs)
+    # return JsonResponse(job_list, safe=False)
+    # f = file('static/test.json', 'w')
+    # f.write('test')
+    # f.close()
     ''' Första sidan, login sida om användaren inte är inloggad.
         Är användaren inloggad så visas kalendern. '''
     if request.user.has_logged_in == False:
