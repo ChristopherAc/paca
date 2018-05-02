@@ -24,10 +24,11 @@
 {% block header %}
     <header>
       <nav>
-        <a href="{% url 'logout' %}">Logga ut</a>
+        <a href="{% url 'index' %}">Startsida</a>
         <a href="/settings">Inställningar</a>
         <a href="/message">Meddelande</a>
         <a href="/add_user">Lägg till användare</a>
+        <a href="{% url 'logout' %}">Logga ut</a>
       </nav>
     </header>
 {% endblock %}
