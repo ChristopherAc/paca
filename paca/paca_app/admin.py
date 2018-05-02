@@ -12,6 +12,7 @@ from django.utils.translation import ugettext_lazy as _
 from .models import User
 from .models import Manager
 from .models import Message
+from .models import Job
 
 
 @admin.register(User)
@@ -41,4 +42,8 @@ class MessageAdmin(admin.ModelAdmin):
 
 @admin.register(Manager)
 class ManagerAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(Job)
+class JobAdmin(admin.ModelAdmin):
     pass
