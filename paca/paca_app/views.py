@@ -13,7 +13,7 @@ from .models import Job
 def ajax_calendar(request):
     if request.is_ajax():
         print("lol")
-
+@login_required
 def index(request):
     # jobs = Job.objects.all().values()
     # job_list = list(jobs)
