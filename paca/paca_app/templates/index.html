@@ -11,61 +11,87 @@
 {% block content %}
   <div id="calendar"></div>
   <script>
+  // Create calendar when document is ready
+$(document).ready(function() {
 
-  displayEventTime: true
+ // We will refer to $calendar in future code
+ var $calendar = $("#calendar").fullCalendar({
+   // Start of calendar options
+   header: {
+    left: 'title',
+    center: '',
+    right: 'today,month,agendaDay,agendaWeek prev,next'
+   },
 
-  var events = [];
+   // Make possible to respond to clicks and selections
+   selectable: true,
+   eventLimit: true,
 
-  $(document).ready(function() {
+   // This is the callback that will be triggered when a selection is made.
+   // It gets start and end date/time as part of its arguments
+   select: function(start, end, jsEvent, view) {
 
-    $('#calendar').fullCalendar({
+     // Ask for a title. If empty it will default to "New event"
+     title = "Arbetspass";
+     // If did not pressed Cancel button
+     if (title != null) {
+      // Create event
+      var event = {
+       title: title.trim() != "" ? title : "Arbetspass",
+       start: start,
+       end: end,
 
-      header: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'month,agendaWeek,agendaDay'
-      },
-
-      // Settings //
-      defaultDate: '2018-04-28',
-      navLinks: true, // can click day/week names to navigate views
-      selectable: true,
-      selectHelper: true,
-      editable: true,
-      eventLimit: true, // allow "more" link when too many events
-
-
-
-      // Add event //
-      select: function dayClick(start, end) {
-        var title = prompt('Event Title:');
-        var eventData;
-        if (title) {
-          eventData = {
-            title: title,
-            start: start,
-            end: end
-          };
-          events.push(eventData);
-
-          $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
-          }
-        $('#calendar').fullCalendar('unselect');
-      },
-
-      // select: function eventClick(){
-      //   alert('clicked on event');
-      // },
+       // Changed default colors to make delete links
+       // more obvious
+       color: "lightBlue",
+       textColor: "black"
+      };
 
 
-      events: []
+      // Push event into fullCalendar's array of events
+      // and displays it. The last argument is the
+      // "stick" value. If set to true the event
+      // will "stick" even after you move to other
+      // year, month, day or week.
+
+      $calendar.fullCalendar("renderEvent", event, true);
+     };
+     // Whatever happens, unselect selection
+     $calendar.fullCalendar("unselect");
+
+    }, // End select callback
+
+    // Make events editable, globally
+    editable : true,
+
+    // Callback triggered when we click on an event
 
 
-    });
+    // Callback triggered just before an event is rendered
+    eventRender: function(event, element){
+            $(element).find(".fc-content").append("<div style='float:right'><a class='delete-link' href='javascript:remove_event(\""
+            + event._id + "\")'>Delete</a></div>");
 
+    }, // End callback eventRender
 
+  } // End of calendar options
+ );
 
-  });
+});
+
+// Global instance of the calendar to be used in other scripts.
+var $calendar = $("#calendar").fullCalendar("getCalendar");
+
+// Removes event with ID eventID from calendar
+function remove_event(eventID){
+    var remove = confirm("Remove event ID " + eventID + "?");
+
+    if(remove == true){
+        $calendar.fullCalendar("removeEvents", eventID);
+        $calendar.fullCalendar("refresh")
+    };
+
+};
 
 </script>
 {% endblock %}
