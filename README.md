@@ -28,7 +28,7 @@ exempel:
 
 6 skriv in önskad e-mail och önskat lösenord när det efterfrågas.
 
-7 när du har fått bekräftat att en ny användare har skapats skriv in 'mange.py runserver'.
+7 när du har fått bekräftat att en ny användare har skapats skriv in 'manage.py runserver'.
 
 8 gå till http://127.0.0.1:8000/
 

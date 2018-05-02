@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib import messages
 from .forms import MessageForm
 from .models import Message
 from .forms import UserForm
@@ -53,41 +54,39 @@ def change_password(request):
 def add_user(request):
     # Skapar en Userform (forms.py Userform)
     form = UserForm()
-
-    # Om användaren inte är en manager så ska han inte kunna lägga till användare.
     try:
         Manager.objects.get(user=request.user)
     except:
         return redirect('/')
-
     # Om förfrågan är en POST
     if request.method == 'POST':
 
-        # Hämta POST datan från formen
+            # Hämta POST datan från formen
         form = UserForm(request.POST)
-        # Om Formen är validerad och godkänd.
+
+            # Om Formen är validerad och godkänd.
         if form.is_valid():
 
-            # Spara som ett objekt utan att kommita i databasen
+                # Spara som ett objekt utan att kommita i databasen
             new_user = form.save(commit=False)
 
-            # generera ett nytt lösenord från djangos inbyggda funktion make_random_password().
+                # generera ett nytt lösenord från djangos inbyggda funktion make_random_password().
             password = User.objects.make_random_password()
-
-            # spara det genererade lösenodet genom djangos set_password()
+                # spara det genererade lösenodet genom djangos set_password()
             new_user.set_password(password)
-
             # Spara användaren
             new_user.save()
 
-            # kontrollera om "arbetsgivare" är ikryssat.
             if request.POST.get('ismanager') == 'ismanager':
-                # Är det ikryssat så spara den nya användaren som en manager.
                 manager = Manager(user = new_user)
                 manager.save()
 
-            # Skapa ett meddelande från inloggad användare till sig själv,
-            # I detta meddelande finns det nya lösenordet för den nya användaren.
+
+
+
+
+                # Skapa ett meddelande från inloggad användare till sig själv,
+                # I detta meddelande finns det nya lösenordet för den nya användaren.
             password_message = Message(
             sent_from=request.user,
                 sent_to=request.user,
@@ -98,10 +97,10 @@ def add_user(request):
                 ))
             password_message.save()
 
-        # Om inte det skickade formuläret är godkänt så skickar vi tillbaks det,
-        # Med felmeddelande.
+            # Om inte det skickade formuläret är godkänt så skickar vi tillbaks det,
+            # Med felmeddelande.
         else:
-            form = UserForm(request.POST)
+            form = request.method(request.POST)
 
     return render(request, 'add_user.html',{'form':form})
 
@@ -129,7 +128,14 @@ def forgot_password(request):
                         new_password
                     ))
                 password_message.save()
-            return redirect('/')
+
+            get_user.has_logged_in == False
+            get_user.save()
+            messages.add_message(request, messages.SUCCESS, 'Ett nytt lösenord har skickats till din arbetsgivare.')
+            return render(request, 'forgot_password.html')
+
         except User.DoesNotExist:
             get_email = None
+            messages.add_message(request, messages.WARNING, 'Det finns ingen användare med angiven email!')
+            return render(request, 'forgot_password.html')
     return render(request, 'forgot_password.html')
