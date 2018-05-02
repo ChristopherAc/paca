@@ -88,34 +88,8 @@ function remove_event(eventID){
 
     if(remove == true){
         $calendar.fullCalendar("removeEvents", eventID);
-        $calendar.fullCalendar("refresh")
+        $calendar.fullCalendar("refreshEvents")
     };
-
-    function saveEvent(event){
-
-            // Ajax call passes event's JSON to application in a query
-            // parameter. Uses JSON.stringify to generate an URL friendly
-            // JSON string
-
-           $.ajax({
-           url: "/ajax_calendar" + JSON.stringify(event)
-            }).done(function(data) {
-
-                        // Save and render event locally in fullCalendar's
-                        // event array if saveEvent is succesful
-
-                        alert(data);
-
-                        // If the string does not contains the
-                        // substring 'Error:' it is OK to render event
-
-                        if(!(~data.indexOf('Error:'))) {
-                          $calendar.fullCalendar('renderEvent', event, true)
-                        };
-
-                        return true;
-                        })
-           .fail(function (data) {alert(data);return false;})
 
 };
 
