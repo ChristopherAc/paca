@@ -12,5 +12,7 @@ urlpatterns = [
     # lägg till en arbetsgivare
     path('add_user', views.add_user, name='add_user'),
     #Glömt lösenord
-    path('forgot_password/', views.forgot_password, name='forgot_password')
+    path('forgot_password/', views.forgot_password, name='forgot_password'),
+    #Ajax för fullCalendar
+    path('/ajax_calendar', views.ajax_calendar, name='ajax_calendar')
 ]

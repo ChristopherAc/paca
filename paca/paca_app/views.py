@@ -1,14 +1,26 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
+from django.http import JsonResponse
 from .forms import MessageForm
 from .models import Message
 from .forms import UserForm
 from .models import User
 from .models import Manager
+from .models import Job
 
 @login_required
+def ajax_calendar(request):
+    if request.is_ajax():
+        print("lol")
+
 def index(request):
+    jobs = Job.objects.all().values()
+    job_list = list(jobs)
+    return JsonResponse(job_list, safe=False)
+    f = file('static/test.json', 'w')
+    f.write('test')
+    f.close()
     ''' Första sidan, login sida om användaren inte är inloggad.
         Är användaren inloggad så visas kalendern. '''
     if request.user.has_logged_in == False:
@@ -20,7 +32,6 @@ def index(request):
 @login_required
 def settings(request):
     return render(request, 'settings.html')
-
 @login_required
 def message(request):
     # Skapar en Modelform
