@@ -1,4 +1,71 @@
 {% extends 'base.html' %}
+{% block head %}
+{% load static %}
+  <link href={% static "paca_app/calendar/fullcalendar.min.css"%} rel='stylesheet' />
+  <link href={% static "paca_app/calendar/fullcalendar.print.min.css"%} rel='stylesheet' media='print' />
+  <script src={% static "paca_app/calendar/moment.min.js"%}></script>
+  <script src={% static "paca_app/calendar/jquery.min.js"%}></script>
+  <script src={% static "paca_app/calendar/fullcalendar.min.js"%}></script>
+
+{% endblock %}
 {% block content %}
-  <p>Kalender </p>
+  <div id="calendar"></div>
+  <script>
+
+  displayEventTime: true
+
+  var events = [];
+
+  $(document).ready(function() {
+
+    $('#calendar').fullCalendar({
+
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay'
+      },
+
+      // Settings //
+      defaultDate: '2018-04-28',
+      navLinks: true, // can click day/week names to navigate views
+      selectable: true,
+      selectHelper: true,
+      editable: true,
+      eventLimit: true, // allow "more" link when too many events
+
+
+
+      // Add event //
+      select: function dayClick(start, end) {
+        var title = prompt('Event Title:');
+        var eventData;
+        if (title) {
+          eventData = {
+            title: title,
+            start: start,
+            end: end
+          };
+          events.push(eventData);
+
+          $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+          }
+        $('#calendar').fullCalendar('unselect');
+      },
+
+      // select: function eventClick(){
+      //   alert('clicked on event');
+      // },
+
+
+      events: []
+
+
+    });
+
+
+
+  });
+
+</script>
 {% endblock %}
