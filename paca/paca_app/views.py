@@ -1,11 +1,8 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
-<<<<<<< HEAD
-from django.contrib import messages
-=======
 from django.http import JsonResponse
->>>>>>> 9d6515480cc6c7026012f42e10676db1eef45c68
+from django.contrib import messages
 from .forms import MessageForm
 from .models import Message
 from .forms import UserForm
