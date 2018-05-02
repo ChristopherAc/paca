@@ -1,6 +1,6 @@
 {% extends "base.html" %}
     {% block content %}
-    <form method="POST" action=" ">
+    <form method="POST" style="width:20vw;margin:auto;"action=" ">
       {% csrf_token %}
       {{ form.as_p }}
       <input type="submit" value="Skicka">

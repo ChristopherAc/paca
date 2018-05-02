@@ -1,12 +1,43 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
+<<<<<<< HEAD
 from django.contrib import messages
+=======
+from django.http import JsonResponse
+>>>>>>> 9d6515480cc6c7026012f42e10676db1eef45c68
 from .forms import MessageForm
 from .models import Message
 from .forms import UserForm
 from .models import User
 from .models import Manager
+from .models import Job
+
+<<<<<<< HEAD
+
+def ajax_calendar(request):
+    # if request.method == "POST":
+    #     return HttpResponse("POST")
+    # return HttpResponse("TEST SIDA FÖR VALFRI REQUEST")
+    # if request.is_ajax():
+    #     print("lol")
+    jobs = Job.objects.all().values()
+    job_list = list(jobs)
+    return JsonResponse(job_list, safe=False)
+=======
+@login_required
+def ajax_calendar(request):
+    if request.is_ajax():
+        print("lol")
+@login_required
+def index(request):
+    # jobs = Job.objects.all().values()
+    # job_list = list(jobs)
+    # return JsonResponse(job_list, safe=False)
+>>>>>>> c4345252b0f9f4b11e843795590957af87014725
+    # f = file('static/test.json', 'w')
+    # f.write('test')
+    # f.close()
 
 @login_required
 def index(request):
@@ -21,7 +52,6 @@ def index(request):
 @login_required
 def settings(request):
     return render(request, 'settings.html')
-
 @login_required
 def message(request):
     # Skapar en Modelform
