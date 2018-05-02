@@ -82,3 +82,5 @@ class Job(models.Model):
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     workers = models.ManyToManyField(User)
+    def __str__(self):
+        return "{}".format(self.name)
