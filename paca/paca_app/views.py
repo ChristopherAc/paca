@@ -9,6 +9,7 @@ from .models import User
 from .models import Manager
 from .models import Job
 
+<<<<<<< HEAD
 
 def ajax_calendar(request):
     # if request.method == "POST":
@@ -19,6 +20,17 @@ def ajax_calendar(request):
     jobs = Job.objects.all().values()
     job_list = list(jobs)
     return JsonResponse(job_list, safe=False)
+=======
+@login_required
+def ajax_calendar(request):
+    if request.is_ajax():
+        print("lol")
+@login_required
+def index(request):
+    # jobs = Job.objects.all().values()
+    # job_list = list(jobs)
+    # return JsonResponse(job_list, safe=False)
+>>>>>>> c4345252b0f9f4b11e843795590957af87014725
     # f = file('static/test.json', 'w')
     # f.write('test')
     # f.close()
