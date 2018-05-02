@@ -4,6 +4,10 @@ from .models import User
 
 # Form för Messages
 class MessageForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(MessageForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
     class Meta:
         model = Message
         # Vi vill inte att användaren ska ange sent_from

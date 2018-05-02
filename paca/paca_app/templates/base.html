@@ -16,7 +16,7 @@
 
         height:8vh;
         width:100vw;
-        background:#dadada;
+        background:#001f3f;
       }
     </style>
     <meta charset="utf-8">
@@ -26,13 +26,32 @@
   <body>
 {% block header %}
     <header>
-      <nav>
+
+      <!-- <nav>
         <a href="{% url 'index' %}">Startsida</a>
         <a href="/settings">Inställningar</a>
         <a href="/message">Meddelande</a>
         <a href="/add_user">Lägg till användare</a>
-        <a href="{% url 'logout' %}">Logga ut</a>
-      </nav>
+        <a href="{% url 'logout' %}">Logga ut</a> -->
+        <nav class="navbar navbar-light bg-light">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'index' %}">PACA</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/settings">Inställningar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/message">Meddelande</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="/add_user">Lägg till användare</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="{% url 'logout' %}">Logga ut</a>
+              </li>
+            </ul>
+        </nav>
     </header>
 {% endblock %}
     {% block content %}
