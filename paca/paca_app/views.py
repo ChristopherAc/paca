@@ -9,6 +9,18 @@ from .models import User
 from .models import Manager
 from .models import Job
 
+<<<<<<< HEAD
+
+def ajax_calendar(request):
+    # if request.method == "POST":
+    #     return HttpResponse("POST")
+    # return HttpResponse("TEST SIDA FÖR VALFRI REQUEST")
+    # if request.is_ajax():
+    #     print("lol")
+    jobs = Job.objects.all().values()
+    job_list = list(jobs)
+    return JsonResponse(job_list, safe=False)
+=======
 @login_required
 def ajax_calendar(request):
     if request.is_ajax():
@@ -18,9 +30,13 @@ def index(request):
     # jobs = Job.objects.all().values()
     # job_list = list(jobs)
     # return JsonResponse(job_list, safe=False)
+>>>>>>> c4345252b0f9f4b11e843795590957af87014725
     # f = file('static/test.json', 'w')
     # f.write('test')
     # f.close()
+
+@login_required
+def index(request):
     ''' Första sidan, login sida om användaren inte är inloggad.
         Är användaren inloggad så visas kalendern. '''
     if request.user.has_logged_in == False:
