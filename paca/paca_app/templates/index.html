@@ -98,7 +98,7 @@ function remove_event(eventID){
             // JSON string
 
            $.ajax({
-           url: "#" + JSON.stringify(event)
+           url: "/ajax_calendar" + JSON.stringify(event)
             }).done(function(data) {
 
                         // Save and render event locally in fullCalendar's
