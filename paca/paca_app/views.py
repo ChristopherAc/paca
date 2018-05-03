@@ -40,7 +40,7 @@ def jobs(request):
         jobForm = JobForm(request.POST or None)
         if request.method == 'POST':
             if jobForm.is_valid():
-                new_job = jobForm.save()
+                jobFo = jobForm.save()
                 new_job.manager.add(manager)
                 new_job.save()
 

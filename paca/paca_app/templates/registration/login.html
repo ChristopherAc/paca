@@ -1,12 +1,26 @@
 {% extends 'base.html' %}
+{% block head %}
+  <style>
+    body{
+      text-align:center;
+    }
+    form{
+      margin:auto;
+      margin-top:20vh;
+    }
+    input{
+
+    }
+  </style>
+{% endblock %}
 {% block header %}
 {% endblock %}
 {% block content %}
-  <h2>Login</h2>
+  <h1>PACA</h1>
   <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Login">
+    {{form.as_p}}
+    <input type="submit" value="Login" class="btn btn-success">
   </form>
   <a href="/forgot_password">Glömt lösenord</a>
 {% endblock %}

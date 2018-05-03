@@ -9,17 +9,18 @@
     .free{
       background:#1ea71e7a;
       color:grey;
+
     }
   </style>
 {% endblock %}
 
     {% block content %}
     {% if type == 'manager' %}
-    <form method="POST" style="width:20vw;margin-top:10vh;">
-      {% csrf_token %}
-      {{bookingForm.as_p}}
-        <input type="submit">
-    </form>
+      <form method="POST" style="width:20vw;margin-top:10vh;">
+        {% csrf_token %}
+        {{jobForm.as_p}}
+        <input type="submit" class="btn btn-success">
+      </form>
     {% endif %}
     <table>
       {% for job in jobs %}
