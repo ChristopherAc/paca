@@ -8,13 +8,15 @@ class TestRedirectToLogin(TestCase):
         response = self.client.get('')
         self.assertRedirects(response, '/accounts/login/?next=/')
 
+    # def test_redirect_
+
 class TestNoRedirectLogin(TestCase):
     def setUp(self):
         user_manager = User.objects.create(email='testuser133333@gmail.com',password='qwer1234')
         user_manager.save()
         login = self.client.login(email='testuser@gmail.com',password='qwer1234')
 
-    def test_template_home(self):
+    def test_template_home_while_logged_in(self):
         print(User.objects.create(email='testuser@gmail.com',password='qwer1234'))
         response = self.client.get('')
         self.assertTemplateUsed(response,'index.html')
