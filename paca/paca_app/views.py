@@ -12,9 +12,9 @@ from .models import Job
 from .forms import JobForm
 
 @login_required
-def ajax_calendar(request):
-    if request.is_ajax():
-        print("lol")
+def get_jobs(request):
+    jobs = Job.objects.filter()
+    return JsonResponse(jobs)
 
 @login_required
 def index(request):

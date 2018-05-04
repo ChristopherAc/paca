@@ -14,7 +14,7 @@ urlpatterns = [
     #Glömt lösenord
     path('forgot_password/', views.forgot_password, name='forgot_password'),
     #Ajax för fullCalendar
-    path('ajax_calendar', views.ajax_calendar, name='ajax_calendar'),
+    path('get_jobs', views.get_jobs, name='get_jobs'),
     #Tillfällig URL för arbetspass
     path('jobs', views.jobs, name="jobs"),
     #tillfällig URL för att ta bort pass
