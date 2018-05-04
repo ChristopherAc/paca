@@ -13,8 +13,9 @@ from .forms import JobForm
 
 @login_required
 def get_jobs(request):
-    jobs = Job.objects.filter()
-    return JsonResponse(jobs)
+    jobs = Job.objects.all().values()
+    list_jobs = list(jobs)
+    return JsonResponse(list_jobs,safe=False)
 
 @login_required
 def index(request):
