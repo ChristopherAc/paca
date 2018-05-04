@@ -29,7 +29,6 @@
                           url: '/get_jobs',
                       }
                   ],
-                  select: function(start, end, jsEvent, view) {
 
                   dayClick: function( date, jsEvent) {
                       var chosenDate = date.format();
@@ -37,8 +36,7 @@
                       $("#end").val(chosenDate);
                       $("#exampleModal").modal("show");
                   }
-                  
-                };
+
               });
               // Add event
               $("#save_jobs").on("click", function() {

@@ -76,11 +76,11 @@ class Message(models.Model):
         return " from: {} to {} on: {}".format(self.sent_from, self.sent_to, self.sent_time)
 
 class Job(models.Model):
-    name = models.CharField(max_length=30)
+    title = models.CharField(max_length=30)
     spots = models.IntegerField()
     manager = models.ManyToManyField('Manager', blank=True, related_name='manager')
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
+    start = models.DateTimeField()
+    end = models.DateTimeField()
     worker = models.ManyToManyField(User, blank=True, related_name='worker')
 
     def spots_left(self):
