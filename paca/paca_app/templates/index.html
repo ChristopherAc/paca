@@ -11,186 +11,106 @@
 {% block content %}
   <div id="calendar"></div>
   <script>
-  // Create calendar when document is ready
-$(document).ready(function() {
+//   // Create calendar when document is ready
+// $(document).ready(function() {
 
- // We will refer to $calendar in future code
- var $calendar = $("#calendar").fullCalendar({
-   // Start of calendar options
-   header: {
-    left: 'title',
-    center: '',
-    right: 'today,month,agendaDay,agendaWeek prev,next'
-   },
 
-   // Make possible to respond to clicks and selections
-   selectable: true,
-   eventLimit: true,
+
+  $('#calendar').fullCalendar({
+                  header: {
+                      left: 'month,agendaWeek,agendaDay',
+                      center: 'title',
+                      right: 'prevYear,prev,next,nextYear'
+                  },
+                  timeFormat: 'H:mm',
+                  eventsLimit: 'True',
+                  eventSources: [
+                      {
+                          url: '/get_jobs',
+                      }
+                  ],
+                  select: function(start, end, jsEvent, view) {
+
+                  dayClick: function( date, jsEvent) {
+                      var chosenDate = date.format();
+                      $("#start").val(chosenDate);
+                      $("#end").val(chosenDate);
+                      $("#exampleModal").modal("show");
+                  }
+                  
+                };
+              });
+              // Add event
+              $("#save_jobs").on("click", function() {
+                  var title = $("#title").val();
+                  var start = $("#start").val();
+                  var end = $("#end").val();
+                  $.ajax({
+                      url: "/save_jobs",
+                      type: "POST",
+                      data: {
+                          start: start,
+                          end: end,
+                          title: title
+                      },
+                      dataType: "JSON"
+                  }).done(function(data){
+                      $("#calendar").fullCalendar("renderEvent", data);
+                      $("#exampleModal").modal("hide");
+                  });
+              });
+
 
    // This is the callback that will be triggered when a selection is made.
    // It gets start and end date/time as part of its arguments
-   select: function(start, end, jsEvent, view) {
-
-     // Ask for a title. If empty it will default to "New event"
-     title = "Arbetspass";
-     // If did not pressed Cancel button
-     if (title != null) {
-      // Create event
-      var event = {
-       title: title.trim() != "" ? title : "Arbetspass",
-       start: start,
-       end: end,
-
-       // Changed default colors to make delete links
-       // more obvious
-       color: "darkBlue",
-       textColor: "white"
-      };
-
-
-      // Push event into fullCalendar's array of events
-      // and displays it. The last argument is the
-      // "stick" value. If set to true the event
-      // will "stick" even after you move to other
-      // year, month, day or week.
-
-      $calendar.fullCalendar("renderEvent", event, true);
-     };
-     // Whatever happens, unselect selection
-     $calendar.fullCalendar("unselect");
-
-    }, // End select callback
-
-    // Make events editable, globally
-    editable : true,
-
-    // Callback triggered when we click on an event
-
-
-    // Callback triggered just before an event is rendered
-    eventRender: function(event, element){
-            $(element).find(".fc-content").append("<div style='float:right'><a class='delete-link' href='javascript:remove_event(\""
-            + event._id + "\")'>Delete</a></div>");
-
-    }, // End callback eventRender
-
-  } // End of calendar options
- );
-
-});
-// Create Event Dialog JavaScript **************************************
-// var start = "2017-01-01";
-// var end = "2019-12-30";
+//    select: function(start, end, jsEvent, view) {
 //
-// $.ajax({
-//   url: "/ajax_calendar",
-//   dataType: "JSON",
-//   data: {
-//     start: start,
-//     end: end
-//   }
-// })
-// .done(function(data) {
-//   events: [
-//     {
-//       start: "2018-04-03",
-//       end: "2018-04-04"
-//     }
-//   ]
-// }).fail(function(data) {
-//   // Något gick snett
-//   alert("Shit fuck up");
-// })
-
-
-
-
-
-    // $('#calCreateEventDialog').dialog({
-    //     resizable: false,
-    //     autoOpen: false,
-    //     modal: true,
-    //     width: 500,
-    //     buttons: {
-    //         Create: function() {
-    //
-    //                 // Get start and end dates from data payload
-    //
-    //                 var start = $(this).data('start');
-    //                 var end = $(this).data('end');
-    //                 var eventTitle = $("#eventTitle").val().trim();
-    //
-    //                 // Build event
-    //                 var event = {
-    //                  title: eventTitle != "" ? eventTitle:"Arbetspass",
-    //                  color: 'DeepSkyBlue',
-    //                  textColor: 'black',
-    //                  start: start.format(),
-    //                  end: end.format()
-    //                 }
-    //
-    //                 // Save event locally in fullCalendar's event array
-    //                 // and in database
-    //
-    //                 saveEvent(event);
-    //
-    //
-    //
-    //             // Unselect event. Selection trail will disappear.
-    //
-    //             $calendar.fullCalendar('unselect');
-    //
-    //             // Close dialog
-    //             $(this).dialog('close');
-    //
-    //         },
-    //
-    //         Cancel: function() {
-    //             $(this).dialog('close');
-    //         }
-    //     }
-    // });
-// // AJAX CALL SAVE EVENT //
-
-// END //
-
-// Global instance of the calendar to be used in other scripts.
-var $calendar = $("#calendar").fullCalendar("getCalendar");
-
-
-// events: function(start, end, timezone, callback) {
-//   $.ajax({
-//     url: "/ajax_calendar",
-//     dataType: "JSON",
-//     data: {
-//       title: title,
-//       start: start,
-//       end: end
-//     },
-//     success: function(data) {
-//       var events = [];
-//       $(data).find('event').each(function() {
-//         events.push({
-//           title: $(this).attr('name'),
-//           start: $(this).attr('start_time'), // will be parsed
-//           end: $(this).attr('end_time')
-//         });
-//       });
-//       callback(events);
-//     }
-//   });
-// }
-
-// Removes event with ID eventID from calendar
-function remove_event(eventID){
-    var remove = confirm("Remove event ID " + eventID + "?");
-
-    if(remove == true){
-        $calendar.fullCalendar("removeEvents", eventID);
-        $calendar.fullCalendar("refreshEvents")
-    };
-
-};
+//      // Ask for a title. If empty it will default to "New event"
+//      title = "Arbetspass";
+//      // If did not pressed Cancel button
+//      if (title != null) {
+//       // Create event
+//       var event = {
+//        title: title.trim() != "" ? title : "Arbetspass",
+//        start: start,
+//        end: end,
+//        color: "darkBlue",
+//        textColor: "white"
+//       };
+//
+//       $calendar.fullCalendar("renderEvent", event, true);
+//      };
+//      // Whatever happens, unselect selection
+//      $calendar.fullCalendar("unselect");
+//
+//     }, // End select callback
+//
+//     // Make events editable, globally
+//     editable : true,
+//     // Callback triggered just before an event is rendered
+//     eventRender: function(event, element){
+//             $(element).find(".fc-content").append("<div style='float:right'><a class='delete-link' href='javascript:remove_event(\""
+//             + event._id + "\")'>Delete</a></div>");
+//
+//     }, // End callback eventRender
+//
+//   } // End of calendar options
+//  );
+//
+//
+// });
+//
+// var $calendar = $("#calendar").fullCalendar("getCalendar");
+//
+// function remove_event(eventID){
+//     var remove = confirm("Remove event ID " + eventID + "?");
+//
+//     if(remove == true){
+//         $calendar.fullCalendar("removeEvents", eventID);
+//         $calendar.fullCalendar("refreshEvents")
+//     };
+//
+// };
 
 </script>
 {% endblock %}
