@@ -1,10 +1,30 @@
 # paca
+
   Observera att sidan visar en  kalender. kalendern går dock inte att använda för att boka pass(ännu).
 
+  Granskning:
+    De filer som bör granskas är:
+      paca_app/views.py
+      paca_app/urls.py
+      paca_app/models.py
+      paca_app/tests.py
+      paca_app/admin.py
+      paca_app/templates
+        add_user.html
+        base.html
+        change_password.html
+        forgot_password.html
+        index.html
+        jobs.html
+        message.html
+        settings.html
+      paca_app/teplates/registration/login.html
+
+  Resterande filer är autogenererade av antingen Django eller Fullcalendar
   Använd istället länken "Arbetspass" i headern för att nå dessa funktioner.
 
   Läs igenom denna filen noga. Det finns faktorer på varje dator som avgör om du måste skriva python3, python innan varje kommando. Har du en "Enviroment variable" i din dator som pekar på python.exe så behöver du inte skriva något innan dina pythonkommandon. Därför rekomenderas du att läsa och prova de olika alternativen som finns i dokumentet.
-  
+
 ## Instruktioner
 Python 3
 1. installera python3 (kryssa i att du vill att pip installeras med python.)
