@@ -10,6 +10,7 @@
   {% for msg in messages %}
     <div>
       <h3>{{msg.sent_from}}</h3>
+      <p>{{msg.sent_time}}</p>
       <p>{{msg.text}}</p>
     </div>
   {%endfor %}
@@ -19,6 +20,7 @@
   {% for msg in message_sent %}
     <div>
       <h3>{{msg.sent_to}}</h3>
+      <p>{{msg.sent_time}}</p>
       <p>{{msg.text}}</p>
     </div>
   {%endfor %}
