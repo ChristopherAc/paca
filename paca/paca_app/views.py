@@ -159,7 +159,7 @@ def add_user(request):
             # Om inte det skickade formuläret är godkänt så skickar vi tillbaks det,
             # Med felmeddelande.
         else:
-            form = request.method(request.POST)
+            form = UserForm(request.POST)
 
     return render(request, 'add_user.html',{'form':form})
 
