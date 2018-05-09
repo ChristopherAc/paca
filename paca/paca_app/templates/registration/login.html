@@ -1,20 +1,12 @@
 {% extends 'base.html' %}
 {% block head %}
-  <style>
-    body{
-      text-align:center;
-    }
-    form{
-      margin:auto;
-      margin-top:20vh;
-    }
-    input{
-
-    }
-  </style>
+  {% load static %}
+  <link rel="stylesheet" type"text/css" href="{% static "stylesheets/temporary.css" %}" >
 {% endblock %}
+
 {% block header %}
 {% endblock %}
+
 {% block content %}
   <h1>PACA</h1>
   <form method="post">

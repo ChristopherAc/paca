@@ -1,21 +1,19 @@
 {% extends 'base.html' %}
+
 {% block head %}
-{% load static %}
+  {% load static %}
   <link href={% static "paca_app/calendar/fullcalendar.min.css"%} rel='stylesheet' />
   <link href={% static "paca_app/calendar/fullcalendar.print.min.css"%} rel='stylesheet' media='print' />
   <script src={% static "paca_app/calendar/moment.min.js"%}></script>
   <script src={% static "paca_app/calendar/jquery.min.js"%}></script>
   <script src={% static "paca_app/calendar/fullcalendar.min.js"%}></script>
-
 {% endblock %}
+
 {% block content %}
   <div id="calendar"></div>
   <script>
 //   // Create calendar when document is ready
 // $(document).ready(function() {
-
-
-
   $('#calendar').fullCalendar({
                   header: {
                       left: 'month,agendaWeek,agendaDay',

@@ -13,14 +13,15 @@ from .forms import JobForm
 
 @login_required
 def get_jobs(request):
+    # Alla arbetspass hämtas och returneras
     jobs = Job.objects.all().values()
     list_jobs = list(jobs)
     return JsonResponse(list_jobs,safe=False)
 
 @login_required
 def index(request):
-    ''' Första sidan, login sida om användaren inte är inloggad.
-        Är användaren inloggad så visas kalendern. '''
+    # Första sidan, login sida om användaren inte är inloggad.
+    #Är användaren inloggad så visas kalendern ( index.html )
     if request.user.has_logged_in == False:
         return redirect('changepassword/')
     return render(request,'index.html')
@@ -31,11 +32,15 @@ def settings(request):
 
 @login_required
 def jobs(request):
+    # Tillfällig view fram tills kalendern är färdig.
+
+    # Kontrollera om den inloggade användaren är en arbetsgivare
     try:
         manager = Manager.objects.get(user=request.user)
     except:
         manager= False
 
+    # Om användaren är en arbetsgivare. Så ska ett formulär för att lägga till arbetspass finnas.
     if manager:
         type = "manager"
         jobForm = JobForm(request.POST or None)
@@ -44,10 +49,10 @@ def jobs(request):
                 jobFo = jobForm.save()
                 new_job.manager.add(manager)
                 new_job.save()
-
         jobs = Job.objects.filter(manager=manager)
         return render(request, 'jobs.html',{'jobForm':jobForm,'jobs':jobs, 'type':type})
 
+    # Om användaren inte är en arbetsgivare så skall endast passen synas.
     else:
         type = "worker"
         users_manager = Manager.objects.get(manages=request.user)
@@ -57,6 +62,7 @@ def jobs(request):
 
 @login_required
 def jobs_delete(request,id):
+    # Endast en arbetsgivares ska kunna ta bort pass.
     try:
         manager = Manager.objects.get(user=request.user)
     except:
@@ -68,6 +74,7 @@ def jobs_delete(request,id):
 
 @login_required
 def jobs_book(request, id):
+    # Arbetare bokar upp sig på jobb
     user=request.user
     job = Job.objects.get(id=id)
     job.worker.add(user)
@@ -113,32 +120,32 @@ def add_user(request):
     # Om förfrågan är en POST
     if request.method == 'POST':
 
-            # Hämta POST datan från formen
+        # Hämta POST datan från formen
         form = UserForm(request.POST)
 
-            # Om Formen är validerad och godkänd.
+        # Om Formen är validerad och godkänd.
         if form.is_valid():
 
-                # Spara som ett objekt utan att kommita i databasen
+            # Spara som ett objekt utan att kommita i databasen
             new_user = form.save(commit=False)
 
-                # generera ett nytt lösenord från djangos inbyggda funktion make_random_password().
+            # generera ett nytt lösenord från djangos inbyggda funktion make_random_password().
             password = User.objects.make_random_password()
-                # spara det genererade lösenodet genom djangos set_password()
+
+            # spara det genererade lösenodet genom djangos set_password()
             new_user.set_password(password)
+
             # Spara användaren
             new_user.save()
 
+            # Kontrollera om checkobxen är ifylld för "arbetsgivare"
             if request.POST.get('ismanager') == 'ismanager':
+                # om checkboxen är ifylld så sparas användaren som en Arbetsgivare.
                 manager = Manager(user = new_user)
                 manager.save()
 
-
-
-
-
-                # Skapa ett meddelande från inloggad användare till sig själv,
-                # I detta meddelande finns det nya lösenordet för den nya användaren.
+            # Skapa ett meddelande från inloggad användare till sig själv,
+            # I detta meddelande finns det nya lösenordet för den nya användaren.
             password_message = Message(
             sent_from=request.user,
                 sent_to=request.user,
@@ -161,7 +168,6 @@ def forgot_password(request):
         try:
             get_email = request.POST.get('Email')
             get_user = User.objects.get(email=get_email)
-
             new_password = User.objects.make_random_password()
             get_user.set_password(new_password)
             get_user.save()
@@ -180,7 +186,6 @@ def forgot_password(request):
                         new_password
                     ))
                 password_message.save()
-
             get_user.has_logged_in == False
             get_user.save()
             messages.add_message(request, messages.SUCCESS, 'Ett nytt lösenord har skickats till din arbetsgivare.')

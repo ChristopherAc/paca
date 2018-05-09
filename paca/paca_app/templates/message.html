@@ -1,26 +1,25 @@
 {% extends "base.html" %}
-    {% block content %}
-    <form method="POST" style="width:20vw;margin:auto;"action=" ">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <input type="submit" value="Skicka">
-    </form>
-    <h2>Mottagna</h2>
-    {% for msg in messages %}
+{% block content %}
+  <form method="POST" style="width:20vw;margin:auto;"action=" ">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Skicka">
+  </form>
+
+  <h2>Mottagna</h2>
+  {% for msg in messages %}
     <div style="margin:0 auto 1vh auto;border:2px solid grey; box-shadow:3px 3px 6px grey;width:30vw;">
       <h3>{{msg.sent_to}}</h3>
       <p>{{msg.text}}</p>
     </div>
-    {%endfor %}
-    <br/>
-    <br/>
-    <hr/>
+  {%endfor %}
 
-    <h2>Skickade</h2>
-    {% for msg in message_sent %}
-      <div style="margin:0 auto 1vh auto;border:2px solid grey; box-shadow:3px 3px 6px grey;width:30vw;">
+  <h2>Skickade</h2>
+
+  {% for msg in message_sent %}
+    <div style="margin:0 auto 1vh auto;border:2px solid grey; box-shadow:3px 3px 6px grey;width:30vw;">
       <h3>{{msg.sent_to}}</h3>
       <p>{{msg.text}}</p>
     </div>
-    {%endfor %}
-  {% endblock %}
+  {%endfor %}
+{% endblock %}
