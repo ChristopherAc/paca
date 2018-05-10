@@ -9,8 +9,12 @@
 {% endblock %}
 
 {% block content %}
+
   <h1>PACA</h1>
   <form method="post">
+    <div class="alert alert-danger">
+      {{form.non_field_errors}}
+    </div>
     {% csrf_token %}
     {% load widget_tweaks %}
     {{form.username.label_tag}}
