@@ -2,13 +2,40 @@
 
 {% block content %}
 {% load staticfiles %}
-  <form method="post" action=" ">
+  <form method="post" action=" " class="small-form">
 
+    {% if success_msg %}
+      <div class="alert alert-success">
+        {{success_msg | safe}}
+      </div>
+    {% endif %}
     {% csrf_token %}
-    <label for="ismanager">Arbetsgivare</a>
-    <input type="checkbox" name=ismanager value="ismanager">
-    <link rel='stylesheet' href="{% static 'css/bootstrap.min.css' %}" type="text/css">
-    {{form.as_p}}
-    <input type="submit" value="Lägg till ">
+      {%if form.non_field_errors or form.errors %}
+        <div class="alert alert-danger">
+          {{form.non_field_errors}}
+          {{form.email.errors}}
+          {{form.first_name.errors}}
+          {{form.last_name.errors}}
+          {{form.phone.errors}}
+        </div>
+      {% endif %}
+
+      {% load widget_tweaks %}
+
+      {{form.email.label_tag}}
+      {% render_field form.email class="form-control form-margin"%}
+
+      {{form.first_name.label_tag}}
+      {% render_field form.first_name class="form-control form-margin"%}
+
+      {{form.last_name.label_tag}}
+      {% render_field form.last_name class="form-control form-margin"%}
+
+      {{form.phone.label_tag}}
+      {% render_field form.phone class="form-control form-margin"%}
+
+      <label for="ismanager">Skapa som Arbetsgivare</label>
+      <input type="checkbox" name=ismanager value="ismanager">
+      <input type="submit" value="Skapa" class="btn btn-success btn-block ">
   </form>
 {% endblock %}

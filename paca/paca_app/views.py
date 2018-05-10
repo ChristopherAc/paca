@@ -100,7 +100,7 @@ def message(request):
 
 @login_required
 def change_password(request):
-    form = PasswordChangeForm(request.user, request.POST)
+    form = PasswordChangeForm(request.user, request.POST or None)
     if form.is_valid():
         user = form.save()
         request.user.has_logged_in = True
@@ -156,12 +156,17 @@ def add_user(request):
                 ))
             password_message.save()
 
+            success_msg = "Grattis! Din användare är nu skapad. Lösenordet finner bland dina <a href='/message'>meddelande</a>"
+
+            form = UserForm(None)
             # Om inte det skickade formuläret är godkänt så skickar vi tillbaks det,
             # Med felmeddelande.
+            return render(request, 'add_user.html',{'form':form, 'success_msg':success_msg})
         else:
-            form = request.method(request.POST)
+            form = UserForm(request.POST)
 
-    return render(request, 'add_user.html',{'form':form})
+    success_msg = None
+    return render(request, 'add_user.html',{'form':form, 'success_msg':success_msg})
 
 def forgot_password(request):
     if request.method == 'POST':
