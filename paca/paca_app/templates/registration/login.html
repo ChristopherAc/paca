@@ -9,9 +9,8 @@
 {% endblock %}
 
 {% block content %}
-
-  <h1>PACA</h1>
-  <form method="post">
+  <form method="post" class="small-form-size">
+  <h3 class="centered">Logga in</h3>
     {%if form.non_field_errors %}
       <div class="alert alert-danger">
         {{form.non_field_errors}}
@@ -24,6 +23,7 @@
     {{form.password.label_tag}}
     {% render_field form.password class="form-control form-margin"%}
     <input type="submit" value="Login" class="btn btn-success btn-block">
+    <a href="/forgot_password">Glömt lösenord</a>
   </form>
-  <a href="/forgot_password">Glömt lösenord</a>
+
 {% endblock %}
