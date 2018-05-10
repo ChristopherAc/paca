@@ -4,7 +4,7 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     # inställningar
-    path('settings/', views.settings, name='settings'),
+    path('edit_profile/', views.edit_profile, name='edit_profile'),
     # Meddelande
     path('message', views.message, name='message'),
     # Ändra lösenord ( första inloggningen )

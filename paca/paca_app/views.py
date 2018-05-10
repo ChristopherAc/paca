@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.http import JsonResponse
 from django.contrib import messages
+from .forms import EditProfileForm
 from .forms import MessageForm
 from .models import Message
 from .forms import UserForm
@@ -27,8 +28,17 @@ def index(request):
     return render(request,'index.html')
 
 @login_required
-def settings(request):
-    return render(request, 'settings.html')
+def edit_profile(request):
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, instance=request.user)
+
+        if form.is_valid():
+            form.save()
+            return redirect('/edit_profile')
+    else:
+        form = EditProfileForm(instance=request.user)
+        args = {'form': form}
+        return render(request, 'edit_profile.html', args)
 
 @login_required
 def jobs(request):

@@ -1,7 +1,10 @@
 from django.forms import ModelForm
+from django.contrib.auth.forms import UserChangeForm
+from django import forms
 from .models import Message
 from .models import User
 from .models import Job
+
 
 # Form för Messages
 class MessageForm(ModelForm):
@@ -34,3 +37,11 @@ class JobForm(ModelForm):
         model = Job
 
         exclude = ['manager', 'worker']
+
+
+class EditProfileForm(UserChangeForm):
+    class Meta:
+        model = User
+
+        fields = ['email', 'first_name', 'last_name', 'password', 'phone']
+        exclude = []
