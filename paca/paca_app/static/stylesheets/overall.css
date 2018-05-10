@@ -1,7 +1,7 @@
 .form-margin{
     margin-bottom:10px;
 }
-.small-form-size{
+.small-auth-form{
   width:35vh;
   margin:auto;
   text-align:left;
@@ -11,7 +11,17 @@
   box-shadow:4px 4px 16px black;
   margin-top:20vh;
 }
+.small-form{
+  width:35vh;
+  margin:auto;
+  text-align:left;
+  background:white;
+  margin-top:20vh;
+}
 body{
   text-align: center;
   background:white;
+}
+input[type="submit"]{
+  width:100%;
 }

@@ -156,12 +156,17 @@ def add_user(request):
                 ))
             password_message.save()
 
+            success_msg = "Grattis! Din användare är nu skapad. Lösenordet finner bland dina <a href='/message'>meddelande</a>"
+
+            form = UserForm(None)
             # Om inte det skickade formuläret är godkänt så skickar vi tillbaks det,
             # Med felmeddelande.
+            return render(request, 'add_user.html',{'form':form, 'success_msg':success_msg})
         else:
             form = UserForm(request.POST)
 
-    return render(request, 'add_user.html',{'form':form})
+    success_msg = None
+    return render(request, 'add_user.html',{'form':form, 'success_msg':success_msg})
 
 def forgot_password(request):
     if request.method == 'POST':
