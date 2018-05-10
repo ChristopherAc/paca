@@ -1,9 +1,11 @@
 <!doctype html>
-{% load staticfiles %}
+{% load static %}
 <html lang="sv">
   <head>
+
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="{% static "/stylesheets/overall.css" %}">
     <title>
       PACAAs  {% block title %} - login {% endblock %}
     </title>
@@ -34,7 +36,6 @@
           <li class="nav-item">
             <a class="nav-link disabled" href="{% url 'logout' %}">Logga ut</a>
           </li>
-
         </ul>
       </nav>
     </header>
