@@ -25,3 +25,14 @@ body{
 input[type="submit"]{
   width:100%;
 }
+#user_select{
+  height:auto;
+  max-height:20vh;
+}
+#manager-box{
+  display:none;
+}
+.note-text{
+  font-size: 0.8em;
+  font-style:italic;
+}

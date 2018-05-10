@@ -117,6 +117,9 @@ def add_user(request):
         Manager.objects.get(user=request.user)
     except:
         return redirect('/')
+
+    # managers = Manager.user.all()
+    users = User.objects.filter(manager=None)
     # Om förfrågan är en POST
     if request.method == 'POST':
 
@@ -142,7 +145,19 @@ def add_user(request):
             if request.POST.get('ismanager') == 'ismanager':
                 # om checkboxen är ifylld så sparas användaren som en Arbetsgivare.
                 manager = Manager(user = new_user)
+
                 manager.save()
+
+                manages = request.POST.getlist('manages')
+                for user in manages:
+                    user = User.objects.get(pk=user)
+                    manager.manages.add(user)
+                    manager.save()
+
+            else:
+                this_manager = Manager.objects.get(user=request.user)
+                this_manager.manages.add(new_user)
+                this_manager.save()
 
             # Skapa ett meddelande från inloggad användare till sig själv,
             # I detta meddelande finns det nya lösenordet för den nya användaren.
@@ -161,12 +176,12 @@ def add_user(request):
             form = UserForm(None)
             # Om inte det skickade formuläret är godkänt så skickar vi tillbaks det,
             # Med felmeddelande.
-            return render(request, 'add_user.html',{'form':form, 'success_msg':success_msg})
+            return render(request, 'add_user.html',{'form':form, 'success_msg':success_msg, 'users':users})
         else:
             form = UserForm(request.POST)
 
     success_msg = None
-    return render(request, 'add_user.html',{'form':form, 'success_msg':success_msg})
+    return render(request, 'add_user.html',{'form':form, 'success_msg':success_msg, 'users':users})
 
 def forgot_password(request):
     if request.method == 'POST':

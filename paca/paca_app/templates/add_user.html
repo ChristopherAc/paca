@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
-
+{% block header %}
+  {% load static %}
+  <script src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
+  <script src={% static "JS/animations.js"%}></script>
+{% endblock %}
 {% block content %}
 {% load staticfiles %}
   <form method="post" action=" " class="small-form">
@@ -35,7 +41,16 @@
       {% render_field form.phone class="form-control form-margin"%}
 
       <label for="ismanager">Skapa som Arbetsgivare</label>
-      <input type="checkbox" name=ismanager value="ismanager">
+      <input type="checkbox" name=ismanager value="ismanager" id="manager-checkbox" unchecked>
+      <div id="manager-box">
+        <label for="manages">Välj vem Användaren är arbetsgivare för</label>
+        <select id="user_select" name="manages" multiple>
+          {% for user in users %}
+            <option value="{{user.id}}">{{user}}</option>
+          {% endfor %}
+        </select>
+        <p class="note-text">Tryck och håll ner CTRL och välj flera användare i listan.</p>
+      </div>
       <input type="submit" value="Skapa" class="btn btn-success btn-block ">
   </form>
 {% endblock %}
