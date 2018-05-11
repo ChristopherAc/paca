@@ -41,6 +41,18 @@ def edit_profile(request):
         return render(request, 'edit_profile.html', args)
 
 @login_required
+def password(request):
+
+    form = PasswordChangeForm(request.user, request.POST)
+    if form.is_valid():
+        user = form.save()
+        request.user.has_logged_in = True
+        request.user.save()
+        return redirect('/')
+    return render(request, 'password.html', {'form':form})
+
+
+@login_required
 def jobs(request):
     # Tillfällig view fram tills kalendern är färdig.
 
