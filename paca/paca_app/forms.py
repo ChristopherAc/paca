@@ -38,10 +38,16 @@ class JobForm(ModelForm):
 
         exclude = ['manager', 'worker']
 
-
+# Skapar ett formulär i inställningar med fälten email,
 class EditProfileForm(UserChangeForm):
+    password = forms.CharField(widget=forms.PasswordInput())
     class Meta:
         model = User
 
-        fields = ['email', 'first_name', 'last_name', 'password', 'phone']
+        fields = ['email', 'first_name', 'last_name', 'phone', 'password']
         exclude = []
+    #def clean_password(self):
+        #valid = self.User.check_password(self.cleaned_data['password'])
+        #if not valid:
+            #raise forms.ValidationError("Password Incorrect")
+        #return valid
