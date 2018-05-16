@@ -18,6 +18,7 @@ def get_jobs(request):
     list_jobs = list(jobs)
     return JsonResponse(list_jobs,safe=False)
 
+
 @login_required
 def index(request):
     # Första sidan, login sida om användaren inte är inloggad.
