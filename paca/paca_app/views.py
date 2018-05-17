@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.forms import PasswordChangeForm
 from django.http import JsonResponse
 from django.contrib import messages
@@ -10,6 +11,7 @@ from .models import User
 from .models import Manager
 from .models import Job
 from .forms import JobForm
+import json
 
 @login_required
 def get_jobs(request):
@@ -29,6 +31,21 @@ def get_jobs(request):
     list_jobs = list(jobs)
     return JsonResponse(list_jobs,safe=False)
 
+@login_required
+@csrf_exempt
+def save_jobs(request):
+    try:
+        manager = Manager.objects.get(user=request.user)
+    except:
+        manager = None
+    data = request.POST
+    print(data)
+    new_job = Job(title=data['title'],spots=int(data['spots']),start='2018-05-15 10:00:00',end='2018-05-15 12:00:00')
+    new_job.save()
+    new_job.manager.add(manager)
+    new_job.save()
+
+    return JsonResponse({'start':new_job.start, 'end':new_job.end, 'title':new_job.title})
 @login_required
 def index(request):
     # Första sidan, login sida om användaren inte är inloggad.
