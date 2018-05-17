@@ -14,7 +14,23 @@ from .forms import JobForm
 @login_required
 def get_jobs(request):
     # Alla arbetspass hämtas och returneras
-    jobs = Job.objects.all().values()
+    try:
+        manager = Manager.objects.get(user=request.user)
+    except:
+        manager = None
+
+    if manager:
+        jobstest = Job.objects.filter(manager=manager)
+        print(jobstest)
+        jobs = Job.objects.filter(manager=manager).values()
+        print('this is a manager.')
+
+    else:
+        managers = Manager.objects.filter(manages=request.user)
+        print(managers)
+        for manager in manages:
+            i = Job.objects.filter(manager=manager).values()
+
     list_jobs = list(jobs)
     return JsonResponse(list_jobs,safe=False)
 

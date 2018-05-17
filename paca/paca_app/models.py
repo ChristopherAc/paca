@@ -99,4 +99,4 @@ class Job(models.Model):
 
     def __str__(self):
         # returnera alltid namnet på arbetspasset.
-        return "{}".format(self.name)
+        return "{}".format(self.title)
