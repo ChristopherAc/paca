@@ -37,6 +37,7 @@
             <a class="nav-link disabled" href="{% url 'logout' %}">Logga ut</a>
           </li>
         </ul>
+        <p>{{request.user}}</p>
       </nav>
     </header>
     {% endblock %}
