@@ -97,5 +97,5 @@ class Job(models.Model):
             return False
 
     def __str__(self):
-        """ Returnera alltid namnet på arbetspasset """
-        return "{}".format(self.name)
+        """ Retunerar alltid namnet på arbetspasset """
+        return "{}".format(self.title)
