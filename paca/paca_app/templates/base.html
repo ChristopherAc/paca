@@ -31,13 +31,15 @@
             <a class="nav-link" href="/message">Meddelande</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link disabled" href="/add_user">Lägg till användare</a>
+            <a class="nav-link disabled" href="/add_use r">Lägg till användare</a>
           </li>
           <li class="nav-item">
             <a class="nav-link disabled" href="{% url 'logout' %}">Logga ut</a>
           </li>
+          <span class="pull-right">
+              Användarnamn: <a class="nav-link active">{{request.user}}</a>
+          </span>
         </ul>
-        <p>{{request.user}}</p>
       </nav>
     </header>
     {% endblock %}
