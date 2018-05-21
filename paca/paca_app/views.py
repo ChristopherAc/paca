@@ -14,11 +14,17 @@ from .forms import JobForm
 import json
 
 @csrf_exempt
+def check_spots(request):
+    data = request.POST
+    print(data)
+    job = Job.objects.get(id=data['id'])
+    return JsonResponse({'data':job.spots_left()})
+
+@csrf_exempt
 @login_required
 def book_user(request):
     data = request.POST
     job = Job.objects.get(id=data['id'])
-    booked = job.worker.all()
     if job.spots_left() == True:
         job.worker.add(request.user)
         job.save()

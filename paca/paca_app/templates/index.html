@@ -122,7 +122,7 @@
                     })
                     },
 
-                  dayClick: function( date, jsEvent) {
+                  dayClick1: function( date, jsEvent) {
                     $.get("check_user", function(data){
                       if (data.data == "m"){
                         var chosenDate = date.format();
@@ -136,6 +136,24 @@
                     });
                   },
 
+
+                eventAfterRender: function(event, element, view) {
+                  $.ajax({
+                      url: "/check_spots",
+                      type: "POST",
+                      data: {
+                          id: event.id,
+                      },
+                    }).done(function(data){
+                        if (data.data == true){
+                          element.css('background-color', '#13ed00');
+                        }
+                        else{
+                          element.css('background-color', '#ed2b00');
+                        }
+                    });
+
+                },
               });
               // Add event
               $("#save_jobs").on("click", function() {
@@ -144,16 +162,8 @@
                   var spots = $("#spots").val();
                   var start = $("#start").val();
                   var end = $("#end").val();
-                  var eventColor;
 
-                  $.get("antal_platser", function(data){
-                    if (data.data != 0){
-                      eventColor = "#13ed00"
-                    }
-                    else{
-                      eventColor = "#ed2b00"
-                    }
-                  })
+
 
                   if( title.length > 1 && spots >= 1){
 
