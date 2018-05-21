@@ -28,7 +28,7 @@
           </div>
           <div class="form-group">
               <label for="spots">Platser</label>
-              <input type="number" min="1" class="form-control" id="spots" required>
+              <input type="number" min="0" max="10" class ="form-control" id="spots">
           </div>
           <div class="form-group">
               <label for="title">Starttid</label>
@@ -71,7 +71,7 @@
                       right: 'prevYear,prev,next,nextYear'
                   },
                   timeFormat: 'H:mm',
-                  //defaultView: 'week'
+                  defaultView: 'agendaWeek',
                   eventsLimit: 'True',
                   editable: true,
                   eventLimit: true, // allow "more" link when too many events
@@ -92,10 +92,7 @@
                       else if (data.data == "a"){
                         alert("Du är inte manager")
                       }
-
                     });
-
-
                   }
 
               });
@@ -132,6 +129,7 @@
                     $('#job-err-txt').html("Fel input");
                     $('#jobb-err-container').fadeIn();
                   }
+
               });
 
 $('#close_modal').click(function(){
