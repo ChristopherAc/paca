@@ -14,7 +14,7 @@
 {% block content %}
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-body">
@@ -35,6 +35,10 @@
               <input type="text" class="form-control" id="start">
           </div>
           <div class="form-group">
+              <label for="title">Color</label>
+              <input type="color" class="form-control" id="eventColor">
+          </div>
+          <div class="form-group">
               <label for="title">Sluttid</label>
               <input type="text" class="form-control" id="end">
           </div>
@@ -48,6 +52,16 @@
   </div>
 </div>
 
+<div class="modal fade" id="bookModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <button type="button" class="btn btn-primary" id="bokaPass">Boka pass</button>
+        <button type="button" class="btn btn-primary" id="deletePass">Ta bort pass</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="container">
           <h1>PACA - Plan Calendar
@@ -83,14 +97,36 @@
                   ],
 
                   eventClick: function(calEvent, jsEvent, view) {
-                    $.ajax({
-                        url: "/book_user",
-                        type: "POST",
-                        data: {
-                            id: calEvent.id,
-                        },
-                      });
-                  },
+                    $("#bookModal").modal("show"),
+                    $.get("check_user", function(data){
+                      if (data.data == "m"){
+                        $("#bokaPass").hide();
+                        $("#deletePass").on("click", function() {
+                              alert("delete pass")
+                              $.ajax({
+                                  url: "/delete_pass",
+                                  type: "POST",
+                                  data: {
+                                      id: calEvent.id,
+                                    },
+                                  });
+                            })
+                      }
+                      else if (data.data == "a"){
+                        $("#deletePass").hide();
+                        $("#bokaPass").on("click", function() {
+                          alert("boka pass")
+                          $.ajax({
+                              url: "/book_user",
+                              type: "POST",
+                              data: {
+                                  id: calEvent.id,
+                              },
+                            });
+                        })
+                      }
+                    })
+                    },
 
                   dayClick: function( date, jsEvent) {
                     $.get("check_user", function(data){
@@ -98,7 +134,7 @@
                         var chosenDate = date.format();
                         $("#start").val(chosenDate);
                         $("#end").val(chosenDate);
-                        $("#exampleModal").modal("show");
+                        $("#eventModal").modal("show");
                       }
                       else if (data.data == "a"){
                         alert("Du är inte manager")
@@ -112,6 +148,7 @@
 
                   var title = $("#title").val();
                   var spots = $("#spots").val();
+                  var spots = $("#eventColor").val();
                   var start = $("#start").val();
                   var end = $("#end").val();
 
@@ -125,14 +162,15 @@
                             start: start,
                             spots,      // Testar ifall detta fungerar
                             end: end,
-                            title: title
+                            title: title,
+                            eventColor: eventColor
                         },
                         dataType: "JSON"
                     }).done(function(data){
 
                         $("#calendar").fullCalendar("renderEvent", data);
                         $('#jobb-err-container').fadeOut();
-                        $("#exampleModal").modal("hide");
+                        $("#eventModal").modal("hide");
                     });
                   }
                   else{
