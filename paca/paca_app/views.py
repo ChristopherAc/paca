@@ -12,6 +12,14 @@ from .models import Job
 from .forms import JobForm
 
 @login_required
+def profile(request):
+    # Första sidan, login sida om användaren inte är inloggad.
+    #Är användaren inloggad så visas kalendern ( index.html )
+    if request.user.has_logged_in == False:
+        return redirect('changepassword/')
+    return render(request,'profile.html')
+
+@login_required
 def get_jobs(request):
     # Alla arbetspass hämtas och returneras
     jobs = Job.objects.all().values()

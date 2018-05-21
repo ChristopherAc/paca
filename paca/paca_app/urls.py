@@ -20,5 +20,7 @@ urlpatterns = [
     #tillfällig URL för att ta bort pass
     path('jobs/delete/<int:id>', views.jobs_delete, name="jobs_delete"),
     #tillfällig URL för att boka pass
-    path('jobs/book/<int:id>', views.jobs_book, name="jobs_book")
+    path('jobs/book/<int:id>', views.jobs_book, name="jobs_book"),
+    #Profil sidan
+    path('profile/', views.profile, name='profile')
 ]
