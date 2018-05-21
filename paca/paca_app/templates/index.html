@@ -19,7 +19,9 @@
     <div class="modal-content">
       <div class="modal-body">
         <h2>Arbetspass</h2>
-
+        <div style="display:none;" id="jobb-err-container" class="alert alert-danger">
+          <p id="job-err-txt"></p>
+        </div>
           <div class="form-group">
               <label for="title">Titel</label>
               <input type="text" class="form-control" id="title">
@@ -39,7 +41,7 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" >Stäng</button>
+        <button type="button" id="close_modal" class="btn btn-secondary" data-dismiss="modal" >Stäng</button>
         <button type="button" class="btn btn-primary" id="save_jobs">Spara</button>
       </div>
     </div>
@@ -99,25 +101,41 @@
               });
               // Add event
               $("#save_jobs").on("click", function() {
+
                   var title = $("#title").val();
                   var spots = $("#spots").val();
                   var start = $("#start").val();
                   var end = $("#end").val();
-                  $.ajax({
-                      url: "/save_jobs",
-                      type: "POST",
-                      data: {
-                          start: start,
-                          spots,      // Testar ifall detta fungerar
-                          end: end,
-                          title: title
-                      },
-                      dataType: "JSON"
-                  }).done(function(data){
-                      $("#calendar").fullCalendar("renderEvent", data);
-                      $("#exampleModal").modal("hide");
-                  });
+
+                  if( title.length > 1 && spots >= 1){
+
+
+                    $.ajax({
+                        url: "/save_jobs",
+                        type: "POST",
+                        data: {
+                            start: start,
+                            spots,      // Testar ifall detta fungerar
+                            end: end,
+                            title: title
+                        },
+                        dataType: "JSON"
+                    }).done(function(data){
+
+                        $("#calendar").fullCalendar("renderEvent", data);
+                        $('#jobb-err-container').fadeOut();
+                        $("#exampleModal").modal("hide");
+                    });
+                  }
+                  else{
+
+                    $('#job-err-txt').html("Fel input");
+                    $('#jobb-err-container').fadeIn();
+                  }
               });
 
+$('#close_modal').click(function(){
+  $('#jobb-err-container').fadeOut();
+})
 </script>
 {% endblock %}
