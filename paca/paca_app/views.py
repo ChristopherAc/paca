@@ -31,6 +31,17 @@ def get_jobs(request):
     list_jobs = list(jobs)
     return JsonResponse(list_jobs,safe=False)
 
+def check_user(request):
+    try:
+        manager = Manager.objects.get(user=request.user)
+    except:
+        manager = None
+    if manager:
+        data = "m"
+    else:
+        data = "a"
+    return JsonResponse({'data':data})
+
 @login_required
 @csrf_exempt
 def save_jobs(request):
@@ -40,7 +51,7 @@ def save_jobs(request):
         manager = None
     data = request.POST
     print(data)
-    new_job = Job(title=data['title'],spots=int(data['spots']),start='2018-05-15 10:00:00',end='2018-05-15 12:00:00')
+    new_job = Job(title=data['title'],spots=int(data['spots']),start=data['start'],end=data['end'])
     new_job.save()
     new_job.manager.add(manager)
     new_job.save()

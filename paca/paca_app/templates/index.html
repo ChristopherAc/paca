@@ -26,7 +26,7 @@
           </div>
           <div class="form-group">
               <label for="spots">Platser</label>
-              <input type="text" class="form-control" id="spots">
+              <input type="number" min="1" class="form-control" id="spots" required>
           </div>
           <div class="form-group">
               <label for="title">Starttid</label>
@@ -69,6 +69,7 @@
                       right: 'prevYear,prev,next,nextYear'
                   },
                   timeFormat: 'H:mm',
+                  //defaultView: 'week'
                   eventsLimit: 'True',
                   editable: true,
                   eventLimit: true, // allow "more" link when too many events
@@ -79,10 +80,20 @@
                   ],
 
                   dayClick: function( date, jsEvent) {
-                      var chosenDate = date.format();
-                      $("#start").val(chosenDate);
-                      $("#end").val(chosenDate);
-                      $("#exampleModal").modal("show");
+                    $.get("check_user", function(data){
+                      if (data.data == "m"){
+                        var chosenDate = date.format();
+                        $("#start").val(chosenDate);
+                        $("#end").val(chosenDate);
+                        $("#exampleModal").modal("show");
+                      }
+                      else if (data.data == "a"){
+                        alert("Du är inte manager")
+                      }
+
+                    });
+
+
                   }
 
               });
