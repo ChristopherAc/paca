@@ -13,7 +13,22 @@ from .models import Job
 from .forms import JobForm
 import json
 
+@csrf_exempt
 @login_required
+def book_user(request):
+    data = request.POST
+    job = Job.objects.get(id=data['id'])
+    booked = job.worker.all()
+    if job.spots_left() == True:
+        job.worker.add(request.user)
+        job.save()
+        print("Det finns platser och du är nu inbokad.")
+        return JsonResponse({'response':"Du är nu bokad på detta passet."})
+    else:
+        print("Det finns INGA platser kvar.")
+        return JsonResponse({'response':"Inga platser kvar."})
+
+
 def get_jobs(request):
     # Alla arbetspass hämtas och returneras
     try:
