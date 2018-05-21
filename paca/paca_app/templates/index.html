@@ -35,10 +35,6 @@
               <input type="text" class="form-control" id="start">
           </div>
           <div class="form-group">
-              <label for="title">Color</label>
-              <input type="color" class="form-control" id="eventColor">
-          </div>
-          <div class="form-group">
               <label for="title">Sluttid</label>
               <input type="text" class="form-control" id="end">
           </div>
@@ -86,8 +82,6 @@
                   },
                   timeFormat: 'H:mm',
                   defaultView: 'agendaWeek',
-                  eventsLimit: 'True',
-                  editable: true,
                   eventLimit: true, // allow "more" link when too many events
 
                   eventSources: [
@@ -140,7 +134,7 @@
                         alert("Du är inte manager")
                       }
                     });
-                  }
+                  },
 
               });
               // Add event
@@ -148,9 +142,18 @@
 
                   var title = $("#title").val();
                   var spots = $("#spots").val();
-                  var spots = $("#eventColor").val();
                   var start = $("#start").val();
                   var end = $("#end").val();
+                  var eventColor;
+
+                  $.get("antal_platser", function(data){
+                    if (data.data != 0){
+                      eventColor = "#13ed00"
+                    }
+                    else{
+                      eventColor = "#ed2b00"
+                    }
+                  })
 
                   if( title.length > 1 && spots >= 1){
 
