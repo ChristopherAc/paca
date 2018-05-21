@@ -17,6 +17,8 @@ urlpatterns = [
     path('get_jobs', views.get_jobs, name='get_jobs'),
     #Ajax för save_jobs
     path('save_jobs', views.save_jobs, name='save_jobs'),
+    #ajax för att boka in användare på pass
+    path('book_user', views.book_user, name="book_user"),
     #ajax för att kolla användartyp
     path('check_user', views.check_user, name='check_user'),
     #Tillfällig URL för arbetspass
