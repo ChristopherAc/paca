@@ -75,11 +75,22 @@
                   eventsLimit: 'True',
                   editable: true,
                   eventLimit: true, // allow "more" link when too many events
+
                   eventSources: [
                       {
                           url: '/get_jobs',
                       }
                   ],
+
+                  eventClick: function(calEvent, jsEvent, view) {
+                    $.ajax({
+                        url: "/book_user",
+                        type: "POST",
+                        data: {
+                            id: calEvent.id,
+                        },
+                      });
+                  },
 
                   dayClick: function( date, jsEvent) {
                     $.get("check_user", function(data){
