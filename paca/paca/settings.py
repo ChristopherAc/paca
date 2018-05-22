@@ -139,3 +139,10 @@ AUTH_USER_MODEL = 'paca_app.User'
 # sidan som användaren ska navigeras till efter lyckad inloggning.
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/accounts/login'
+
+gettext = lambda x: x
+
+LANGUAGE_CODE = 'sv'
+LANGUAGES = (
+    ('de', gettext('swedish')),
+)
