@@ -119,7 +119,7 @@ def edit_profile(request):
 @login_required
 def password(request):
 
-    form = PasswordChangeForm(request.user, request.POST)
+    form = PasswordChangeForm(request.user, request.POST or None)
     if form.is_valid():
         user = form.save()
         request.user.has_logged_in = True
