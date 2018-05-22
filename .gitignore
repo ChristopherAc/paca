@@ -53,8 +53,13 @@ coverage.xml
 # Django stuff:
 *.log
 local_settings.py
+<<<<<<< HEAD
 paca/db.sqlite3
 paca/paca_app/migrations/
+=======
+db.sqlite3
+/migrations
+>>>>>>> d9f70e72f6be548346521abfb5a96331b6017bb8
 
 # Flask stuff:
 instance/
