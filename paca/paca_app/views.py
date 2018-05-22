@@ -109,8 +109,10 @@ def edit_profile(request):
         form = EditProfileForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect('/edit_profile')
-
+            alert_msg = "Dina inställningar har nu sparats!"
+            return render(request, 'edit_profile.html',{'alert_msg':alert_msg, 'form':form})
+        else:
+            alert_msg=None
     form = EditProfileForm(request.POST or None, instance=request.user)
     args = {'form': form}
     return render(request, 'edit_profile.html', args)
@@ -118,7 +120,7 @@ def edit_profile(request):
 @login_required
 def password(request):
 
-    form = PasswordChangeForm(request.user, request.POST)
+    form = PasswordChangeForm(request.user, request.POST or None)
     if form.is_valid():
         user = form.save()
         request.user.has_logged_in = True

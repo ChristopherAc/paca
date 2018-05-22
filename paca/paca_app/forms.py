@@ -47,7 +47,7 @@ class EditProfileForm(UserChangeForm):
     password = forms.CharField(widget=forms.PasswordInput())
 
 
-    #confirm_password = forms.CharField(widget=forms.PasswordInput())
+
     class Meta:
         model = User
 
@@ -60,15 +60,3 @@ class EditProfileForm(UserChangeForm):
         if not valid:
             raise forms.ValidationError('Invalid password')
         return password
-
-'''
-    def clean(self):
-        cleaned_data = super(EditProfileForm, self).clean()
-        password = self.cleaned_data.get("password")
-        confirm_password = self.cleaned_data.get("confirm_password")
-        if password != confirm_password:
-            print(password)
-            print(confirm_password)
-            raise forms.ValidationError("password and confirm_password does not match")
-        #return HttpResponse("test")
-'''
