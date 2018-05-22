@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+<h3>Din Profil</h3>
+<ul>
+    <li>
+        <p>Namn: {{request.user}}</p>
+    </li>
+    <li>
+        <p>Email: {{request.user.email}}</p>
+    </li>
+    <li>
+        <p>Telefonnummer: {{request.user.phone}}</p>
+    </li>
+</ul>
+{% endblock %}

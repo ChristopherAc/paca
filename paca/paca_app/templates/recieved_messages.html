@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Mottagna</h2>
+  {% for msg in message_recieved %}
+    <div>
+      <h3>{{msg.sent_from}}</h3>
+      <p>{{msg.sent_time}}</p>
+      <p>{{msg.text}}</p>
+    </div>
+  {%endfor %}
+{% endblock %}

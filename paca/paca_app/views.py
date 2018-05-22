@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.forms import PasswordChangeForm
 from django.http import JsonResponse
 from django.contrib import messages
@@ -11,18 +12,91 @@ from .models import User
 from .models import Manager
 from .models import Job
 from .forms import JobForm
+import json
+
+@csrf_exempt
+def check_spots(request):
+    data = request.POST
+    print(data)
+    job = Job.objects.get(id=data['id'])
+    return JsonResponse({'data':job.spots_left()})
+
+@csrf_exempt
+def delete_pass(request):
+    data = request.POST
+    job = Job.objects.get(id=data['id'])
+    job.delete()
+    return JsonResponse({'data':'ok'})
+
+@csrf_exempt
+@login_required
+def profile(request):
+    # Första sidan, login sida om användaren inte är inloggad.
+    #Är användaren inloggad så visas kalendern ( index.html )
+    if request.user.has_logged_in == False:
+        return redirect('changepassword/')
+    return render(request,'profile.html')
 
 @login_required
+def book_user(request):
+    data = request.POST
+    job = Job.objects.get(id=data['id'])
+    if job.spots_left() == True:
+        job.worker.add(request.user)
+        job.save()
+        print("Det finns platser och du är nu inbokad.")
+        return JsonResponse({'response':"Du är nu bokad på detta passet."})
+    else:
+        print("Det finns INGA platser kvar.")
+        return JsonResponse({'response':"Inga platser kvar."})
+
 def get_jobs(request):
     # Alla arbetspass hämtas och returneras
-    jobs = Job.objects.all().values()
+    try:
+        manager = Manager.objects.get(user=request.user)
+    except:
+        manager = None
+    if manager:
+        jobstest = Job.objects.filter(manager=manager)
+        jobs = Job.objects.filter(manager=manager).values()
+
+    else:
+        managers = Manager.objects.get(manages=request.user)
+        jobs = Job.objects.filter(manager=manager).values()
+
     list_jobs = list(jobs)
     return JsonResponse(list_jobs,safe=False)
 
+def check_user(request):
+    try:
+        manager = Manager.objects.get(user=request.user)
+    except:
+        manager = None
+    if manager:
+        data = "m"
+    else:
+        data = "a"
+    return JsonResponse({'data':data})
+
+@login_required
+@csrf_exempt
+def save_jobs(request):
+    try:
+        manager = Manager.objects.get(user=request.user)
+    except:
+        manager = None
+    data = request.POST
+    print(data)
+    new_job = Job(title=data['title'],spots=int(data['spots']),start=data['start'],end=data['end'])
+    new_job.save()
+    new_job.manager.add(manager)
+    new_job.save()
+
+    return JsonResponse({'start':new_job.start, 'end':new_job.end, 'title':new_job.title})
 @login_required
 def index(request):
     # Första sidan, login sida om användaren inte är inloggad.
-    #Är användaren inloggad så visas kalendern ( index.html )
+    #Är användaren inloggad så visas kalendern (index.html)
     if request.user.has_logged_in == False:
         return redirect('changepassword/')
     return render(request,'index.html')
@@ -104,7 +178,7 @@ def jobs_book(request, id):
     return redirect('/jobs')
 
 @login_required
-def message(request):
+def new_message(request):
     # Skapar en Modelform
     form = MessageForm()
     if request.method == 'POST':
@@ -115,14 +189,33 @@ def message(request):
             new_message = form.save(commit=False)
             new_message.sent_from = request.user
             new_message.save()
+            form = MessageForm()
+            messages.success(request, "Ditt meddelande har skickats!")
+    return render(request,'new_message.html', {'form':form})
 
-    messages = Message.objects.filter(sent_to=request.user)
+@login_required
+def sent_messages(request):
+    """ Sparar alla meddelande som är skickade från den inloggande användaren """
     message_sent = Message.objects.filter(sent_from=request.user)
-    return render(request,'message.html',{'form':form,'messages':messages,'message_sent':message_sent})
+    return render(request, 'sent_messages.html', {'message_sent':message_sent})
+
+@login_required
+def recieved_messages(request):
+    """ Sparar alla meddelande som är mottagna av den inloggande användaren """
+    message_recieved = Message.objects.filter(sent_to=request.user)
+    return render(request, 'recieved_messages.html', {'message_recieved':message_recieved})
+
+"""
+@login_required
+def unread_messages(user)
+    msg = Message.objects.filter(sent_to=request.user).filter(is_read=False).count()
+
+
+"""
 
 @login_required
 def change_password(request):
-    form = PasswordChangeForm(request.user, request.POST)
+    form = PasswordChangeForm(request.user, request.POST or None)
     if form.is_valid():
         user = form.save()
         request.user.has_logged_in = True
@@ -139,6 +232,9 @@ def add_user(request):
         Manager.objects.get(user=request.user)
     except:
         return redirect('/')
+
+    # managers = Manager.user.all()
+    users = User.objects.filter(manager=None)
     # Om förfrågan är en POST
     if request.method == 'POST':
 
@@ -164,7 +260,19 @@ def add_user(request):
             if request.POST.get('ismanager') == 'ismanager':
                 # om checkboxen är ifylld så sparas användaren som en Arbetsgivare.
                 manager = Manager(user = new_user)
+
                 manager.save()
+
+                manages = request.POST.getlist('manages')
+                for user in manages:
+                    user = User.objects.get(pk=user)
+                    manager.manages.add(user)
+                    manager.save()
+
+            else:
+                this_manager = Manager.objects.get(user=request.user)
+                this_manager.manages.add(new_user)
+                this_manager.save()
 
             # Skapa ett meddelande från inloggad användare till sig själv,
             # I detta meddelande finns det nya lösenordet för den nya användaren.
@@ -178,12 +286,17 @@ def add_user(request):
                 ))
             password_message.save()
 
+            success_msg = "Grattis! Din användare är nu skapad. Lösenordet finner bland dina <a href='/message'>meddelande</a>"
+
+            form = UserForm(None)
             # Om inte det skickade formuläret är godkänt så skickar vi tillbaks det,
             # Med felmeddelande.
+            return render(request, 'add_user.html',{'form':form, 'success_msg':success_msg, 'users':users})
         else:
-            form = request.method(request.POST)
+            form = UserForm(request.POST)
 
-    return render(request, 'add_user.html',{'form':form})
+    success_msg = None
+    return render(request, 'add_user.html',{'form':form, 'success_msg':success_msg, 'users':users})
 
 def forgot_password(request):
     if request.method == 'POST':

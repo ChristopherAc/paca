@@ -1,4 +1,5 @@
 # paca
+  OBS. ett nytt bibliotek används. se steg 3 under instruktioner.
 
   Observera att sidan visar en  kalender. kalendern går dock inte att använda för att boka pass(ännu).
 
@@ -37,16 +38,23 @@ Django==2.0.4
   eller
   'pip install django'
 
-3. navigera till den mappen i projektet där filen "manage.py" ligger.
-4. skriv nu i terminalen:
+3. Installera django-widget-widget_tweaks
+  pip install django-widget-tweaks
+
+4. navigera till den mappen i projektet där filen "manage.py" ligger.
+
+5. skriv nu i terminalen:
   python manage.py runserverer
   eller
   python3 manage.py runserver
   eller
   manage.py runserver
-5. Om allt fungerar så ska du få en text som bekräftar att server är startad. Om inte så kontrollera tidigare steg
-6. Öppna din favoritwebläsare, skriv  http://127.0.0.1:8000/ i adressfältet.
-7. Du kan nu logga in på vår sida. Nedan i detta dokument finns det användare du kan använda dig av. Det är helt okej att skapa egna användare.
+
+6. Om allt fungerar så ska du få en text som bekräftar att server är startad. Om inte så kontrollera tidigare steg
+
+7. Öppna din favoritwebläsare, skriv  http://127.0.0.1:8000/ i adressfältet.
+
+8. Du kan nu logga in på vår sida. Nedan i detta dokument finns det användare du kan använda dig av. Det är helt okej att skapa egna användare.
 
 ## Användare
 användarnamn: stoff@paca.se

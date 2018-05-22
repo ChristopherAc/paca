@@ -1,11 +1,13 @@
 <!doctype html>
-{% load staticfiles %}
+{% load static %}
 <html lang="sv">
   <head>
+
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="{% static "/stylesheets/overall.css" %}">
     <title>
-      PACAAs  {% block title %} - login {% endblock %}
+      PACAs  {% block title %} - login {% endblock %}
     </title>
     <meta charset="utf-8">
     {% block head %}
@@ -20,21 +22,36 @@
             <a class="nav-link disabled" href="{% url 'jobs' %}">Arbetspass</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="{% url 'index' %}">PACA</a>
+            <a class="nav-link active" href="{% url 'index' %}">Kalender</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/edit_profile/">Inställningar</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/message">Meddelande</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="/add_user">Lägg till användare</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="{% url 'logout' %}">Logga ut</a>
+            <a class="nav-link disabled" href="/add_user">Registrera ny anställd</a>
           </li>
 
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Meddelande
+              <span class="badge badge-info" id=unreadCount></span>
+              <span class="sr-only">unread messages</span>
+              <span class="caret"></span>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="{% url 'new_message' %}">Nytt meddelande</a>
+              <a class="dropdown-item" href="{% url 'sent_messages' %}">Skickade meddelande</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="{% url 'recieved_messages' %}">Mottagna meddelande</a>
+            </div>
+          </li>
+
+        <li class="nav-item">
+            <a class="nav-link disabled" href="{% url 'logout' %}">Logga ut</a>
+          </li>
+          <span class="pull-right">
+              Användarnamn: <a class="nav-link active" href="/profile">{{request.user}}</a>
+          </span>
         </ul>
       </nav>
     </header>
@@ -44,5 +61,9 @@
       <!-- Innehåll för sidan -->
     {% endblock %}
 
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <script src="{% static "JS/count_unread_messages.js" %}"></script>
   </body>
 </html>
