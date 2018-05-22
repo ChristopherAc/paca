@@ -23,8 +23,7 @@ def check_spots(request):
 @csrf_exempt
 @login_required
 def profile(request):
-    # Första sidan, login sida om användaren inte är inloggad.
-    #Är användaren inloggad så visas kalendern ( index.html )
+    # Profil sida för användaren
     if request.user.has_logged_in == False:
         return redirect('changepassword/')
     return render(request,'profile.html')
