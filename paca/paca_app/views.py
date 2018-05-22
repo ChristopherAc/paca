@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.forms import PasswordChangeForm
 from django.http import JsonResponse
 from django.contrib import messages
@@ -10,7 +11,16 @@ from .models import User
 from .models import Manager
 from .models import Job
 from .forms import JobForm
+import json
 
+@csrf_exempt
+def check_spots(request):
+    data = request.POST
+    print(data)
+    job = Job.objects.get(id=data['id'])
+    return JsonResponse({'data':job.spots_left()})
+
+@csrf_exempt
 @login_required
 def profile(request):
     # Första sidan, login sida om användaren inte är inloggad.
@@ -20,12 +30,61 @@ def profile(request):
     return render(request,'profile.html')
 
 @login_required
+def book_user(request):
+    data = request.POST
+    job = Job.objects.get(id=data['id'])
+    if job.spots_left() == True:
+        job.worker.add(request.user)
+        job.save()
+        print("Det finns platser och du är nu inbokad.")
+        return JsonResponse({'response':"Du är nu bokad på detta passet."})
+    else:
+        print("Det finns INGA platser kvar.")
+        return JsonResponse({'response':"Inga platser kvar."})
+
 def get_jobs(request):
     # Alla arbetspass hämtas och returneras
-    jobs = Job.objects.all().values()
+    try:
+        manager = Manager.objects.get(user=request.user)
+    except:
+        manager = None
+    if manager:
+        jobstest = Job.objects.filter(manager=manager)
+        jobs = Job.objects.filter(manager=manager).values()
+
+    else:
+        managers = Manager.objects.get(manages=request.user)
+        jobs = Job.objects.filter(manager=manager).values()
+
     list_jobs = list(jobs)
     return JsonResponse(list_jobs,safe=False)
 
+def check_user(request):
+    try:
+        manager = Manager.objects.get(user=request.user)
+    except:
+        manager = None
+    if manager:
+        data = "m"
+    else:
+        data = "a"
+    return JsonResponse({'data':data})
+
+@login_required
+@csrf_exempt
+def save_jobs(request):
+    try:
+        manager = Manager.objects.get(user=request.user)
+    except:
+        manager = None
+    data = request.POST
+    print(data)
+    new_job = Job(title=data['title'],spots=int(data['spots']),start=data['start'],end=data['end'])
+    new_job.save()
+    new_job.manager.add(manager)
+    new_job.save()
+
+    return JsonResponse({'start':new_job.start, 'end':new_job.end, 'title':new_job.title})
 @login_required
 def index(request):
     # Första sidan, login sida om användaren inte är inloggad.

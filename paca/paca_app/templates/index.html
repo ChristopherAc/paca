@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 
 {% block head %}
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css" rel="stylesheet">
   {% load static %}
   <link href={% static "paca_app/calendar/fullcalendar.min.css"%} rel='stylesheet' />
   <link href={% static "paca_app/calendar/fullcalendar.print.min.css"%} rel='stylesheet' media='print' />
@@ -10,10 +12,68 @@
 {% endblock %}
 
 {% block content %}
-  <div id="calendar"></div>
+
+<!-- Modal -->
+<div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h2>Arbetspass</h2>
+        <div style="display:none;" id="jobb-err-container" class="alert alert-danger">
+          <p id="job-err-txt"></p>
+        </div>
+          <div class="form-group">
+              <label for="title">Titel</label>
+              <input type="text" class="form-control" id="title">
+          </div>
+          <div class="form-group">
+              <label for="spots">Platser</label>
+              <input type="number" min="0" max="10" class ="form-control" id="spots">
+          </div>
+          <div class="form-group">
+              <label for="title">Starttid</label>
+              <input type="text" class="form-control" id="start">
+          </div>
+          <div class="form-group">
+              <label for="title">Sluttid</label>
+              <input type="text" class="form-control" id="end">
+          </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="close_modal" class="btn btn-secondary" data-dismiss="modal" >Stäng</button>
+        <button type="button" class="btn btn-primary" id="save_jobs">Spara</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="bookModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <button type="button" class="btn btn-primary" id="bokaPass">Boka pass</button>
+        <button type="button" class="btn btn-primary" id="deletePass">Ta bort pass</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+          <h1>PACA - Plan Calendar
+          </h1>
+          <div id='calendar'></div>
+      </div>
+
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+      <script src="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
+      <!-- Latest compiled and minified JavaScript -->
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <script>
-//   // Create calendar when document is ready
-// $(document).ready(function() {
+
   $('#calendar').fullCalendar({
                   header: {
                       left: 'month,agendaWeek,agendaDay',
@@ -21,92 +81,121 @@
                       right: 'prevYear,prev,next,nextYear'
                   },
                   timeFormat: 'H:mm',
-                  eventsLimit: 'True',
+                  defaultView: 'agendaWeek',
+                  eventLimit: true, // allow "more" link when too many events
+
                   eventSources: [
                       {
                           url: '/get_jobs',
                       }
                   ],
 
-                  dayClick: function( date, jsEvent) {
-                      var chosenDate = date.format();
-                      $("#start").val(chosenDate);
-                      $("#end").val(chosenDate);
-                      $("#exampleModal").modal("show");
-                  }
+                  eventClick: function(calEvent, jsEvent, view) {
+                    $("#bookModal").modal("show"),
+                    $.get("check_user", function(data){
+                      if (data.data == "m"){
+                        $("#bokaPass").hide();
+                        $("#deletePass").on("click", function() {
+                              alert("delete pass")
+                              $.ajax({
+                                  url: "/delete_pass",
+                                  type: "POST",
+                                  data: {
+                                      id: calEvent.id,
+                                    },
+                                  });
+                            })
+                      }
+                      else if (data.data == "a"){
+                        $("#deletePass").hide();
+                        $("#bokaPass").on("click", function() {
+                          alert("boka pass")
+                          $.ajax({
+                              url: "/book_user",
+                              type: "POST",
+                              data: {
+                                  id: calEvent.id,
+                              },
+                            });
+                        })
+                      }
+                    })
+                    },
 
+                  dayClick1: function( date, jsEvent) {
+                    $.get("check_user", function(data){
+                      if (data.data == "m"){
+                        var chosenDate = date.format();
+                        $("#start").val(chosenDate);
+                        $("#end").val(chosenDate);
+                        $("#eventModal").modal("show");
+                      }
+                      else if (data.data == "a"){
+                        alert("Du är inte manager")
+                      }
+                    });
+                  },
+
+
+                eventAfterRender: function(event, element, view) {
+                  $.ajax({
+                      url: "/check_spots",
+                      type: "POST",
+                      data: {
+                          id: event.id,
+                      },
+                    }).done(function(data){
+                        if (data.data == true){
+                          element.css('background-color', '#13ed00');
+                        }
+                        else{
+                          element.css('background-color', '#ed2b00');
+                        }
+                    });
+
+                },
               });
               // Add event
               $("#save_jobs").on("click", function() {
+
                   var title = $("#title").val();
+                  var spots = $("#spots").val();
                   var start = $("#start").val();
                   var end = $("#end").val();
-                  $.ajax({
-                      url: "/save_jobs",
-                      type: "POST",
-                      data: {
-                          start: start,
-                          end: end,
-                          title: title
-                      },
-                      dataType: "JSON"
-                  }).done(function(data){
-                      $("#calendar").fullCalendar("renderEvent", data);
-                      $("#exampleModal").modal("hide");
-                  });
+
+
+
+                  if( title.length > 1 && spots >= 1){
+
+
+                    $.ajax({
+                        url: "/save_jobs",
+                        type: "POST",
+                        data: {
+                            start: start,
+                            spots,      // Testar ifall detta fungerar
+                            end: end,
+                            title: title,
+                            eventColor: eventColor
+                        },
+                        dataType: "JSON"
+                    }).done(function(data){
+
+                        $("#calendar").fullCalendar("renderEvent", data);
+                        $('#jobb-err-container').fadeOut();
+                        $("#eventModal").modal("hide");
+                    });
+                  }
+                  else{
+
+                    $('#job-err-txt').html("Fel input");
+                    $('#jobb-err-container').fadeIn();
+                  }
+
               });
 
-
-   // This is the callback that will be triggered when a selection is made.
-   // It gets start and end date/time as part of its arguments
-//    select: function(start, end, jsEvent, view) {
-//
-//      // Ask for a title. If empty it will default to "New event"
-//      title = "Arbetspass";
-//      // If did not pressed Cancel button
-//      if (title != null) {
-//       // Create event
-//       var event = {
-//        title: title.trim() != "" ? title : "Arbetspass",
-//        start: start,
-//        end: end,
-//        color: "darkBlue",
-//        textColor: "white"
-//       };
-//
-//       $calendar.fullCalendar("renderEvent", event, true);
-//      };
-//      // Whatever happens, unselect selection
-//      $calendar.fullCalendar("unselect");
-//
-//     }, // End select callback
-//
-//     // Make events editable, globally
-//     editable : true,
-//     // Callback triggered just before an event is rendered
-//     eventRender: function(event, element){
-//             $(element).find(".fc-content").append("<div style='float:right'><a class='delete-link' href='javascript:remove_event(\""
-//             + event._id + "\")'>Delete</a></div>");
-//
-//     }, // End callback eventRender
-//
-//   } // End of calendar options
-//  );
-//
-//
-// });
-//
-// var $calendar = $("#calendar").fullCalendar("getCalendar");
-//
-// function remove_event(eventID){
-//     var remove = confirm("Remove event ID " + eventID + "?");
-//
-//     if(remove == true){
-//         $calendar.fullCalendar("removeEvents", eventID);
-//         $calendar.fullCalendar("refreshEvents")
-//     };
-//
-// };
-
+$('#close_modal').click(function(){
+  $('#jobb-err-container').fadeOut();
+})
 </script>
 {% endblock %}

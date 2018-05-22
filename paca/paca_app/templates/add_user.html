@@ -1,14 +1,17 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
-{% block head %}
+{% block title %} Lägg till användare {% endblock %}
+
+{% block header %}
+  {% load static %}
+  {{ block.super }}
+  <script src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
+  <script src={% static "JS/animations.js"%}></script>
 {% endblock %}
 {% block content %}
 {% load static %}
-<script src="https://code.jquery.com/jquery-3.3.1.js"
-integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-crossorigin="anonymous"></script>
-<script src={% static "JS/animations.js"%}></script>
-{% load staticfiles %}
   <form method="post" action=" " class="small-form">
 
     {% if success_msg %}
