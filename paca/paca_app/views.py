@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.forms import PasswordChangeForm
 from django.http import JsonResponse
 from django.contrib import messages
+from .forms import EditProfileForm
 from .forms import MessageForm
 from .models import Message
 from .forms import UserForm
@@ -100,9 +101,30 @@ def index(request):
         return redirect('changepassword/')
     return render(request,'index.html')
 
+
 @login_required
-def settings(request):
-    return render(request, 'settings.html')
+def edit_profile(request):
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('/edit_profile')
+
+    form = EditProfileForm(request.POST or None, instance=request.user)
+    args = {'form': form}
+    return render(request, 'edit_profile.html', args)
+
+@login_required
+def password(request):
+
+    form = PasswordChangeForm(request.user, request.POST)
+    if form.is_valid():
+        user = form.save()
+        request.user.has_logged_in = True
+        request.user.save()
+        return redirect('/')
+    return render(request, 'password.html', {'form':form})
+
 
 @login_required
 def jobs(request):

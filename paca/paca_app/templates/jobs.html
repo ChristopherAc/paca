@@ -5,7 +5,7 @@
 
 {% block content %}
   {% if type == 'manager' %}
-    <form method="POST" style="width:20vw;margin-top:10vh;">
+    <form method="POST" style="width:20vw;margin:10vh 0px 0">
       {% csrf_token %}
       {{jobForm.as_p}}
       <input type="submit" class="btn btn-success">
@@ -40,7 +40,6 @@
       {% endif %}
         </tr>
     {% endfor %}
-
     <h2>Bokade pass</h2>
       {% for booking in bookings %}
         <tr>

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+ <form method="post">
+   {% csrf_token %}
+   {{ form.as_p }}
+   <div>
+     <a href="{% url 'password' %}">Klicka här om du vill ändra lösenord</a>
+   </div>
+   <button type="submit">Spara</button>
+ </form>
+
+{% endblock %}

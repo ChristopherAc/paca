@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     # inställningar
+    path('edit_profile/', views.edit_profile, name='edit_profile'),
     path('settings/', views.settings, name='settings'),
     # Nytt meddelande
     path('new_message/', views.new_message, name='new_message'),
@@ -35,6 +36,8 @@ urlpatterns = [
     path('jobs/delete/<int:id>', views.jobs_delete, name="jobs_delete"),
     #tillfällig URL för att boka pass
     path('jobs/book/<int:id>', views.jobs_book, name="jobs_book"),
+    #ändra lösenord i inställningar
+    path('/password', views.password, name="password")
     #Profil sidan
     path('profile/', views.profile, name='profile')
 ]
