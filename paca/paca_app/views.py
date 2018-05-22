@@ -21,7 +21,7 @@ def get_jobs(request):
 @login_required
 def index(request):
     # Första sidan, login sida om användaren inte är inloggad.
-    #Är användaren inloggad så visas kalendern ( index.html )
+    #Är användaren inloggad så visas kalendern (index.html)
     if request.user.has_logged_in == False:
         return redirect('changepassword/')
     return render(request,'index.html')
@@ -82,7 +82,7 @@ def jobs_book(request, id):
     return redirect('/jobs')
 
 @login_required
-def message(request):
+def new_message(request):
     # Skapar en Modelform
     form = MessageForm()
     if request.method == 'POST':
@@ -93,10 +93,29 @@ def message(request):
             new_message = form.save(commit=False)
             new_message.sent_from = request.user
             new_message.save()
+            form = MessageForm()
+            messages.success(request, "Ditt meddelande har skickats!")
+    return render(request,'new_message.html', {'form':form})
 
-    messages = Message.objects.filter(sent_to=request.user)
+@login_required
+def sent_messages(request):
+    """ Sparar alla meddelande som är skickade från den inloggande användaren """
     message_sent = Message.objects.filter(sent_from=request.user)
-    return render(request,'message.html',{'form':form,'messages':messages,'message_sent':message_sent})
+    return render(request, 'sent_messages.html', {'message_sent':message_sent})
+
+@login_required
+def recieved_messages(request):
+    """ Sparar alla meddelande som är mottagna av den inloggande användaren """
+    message_recieved = Message.objects.filter(sent_to=request.user)
+    return render(request, 'recieved_messages.html', {'message_recieved':message_recieved})
+
+"""
+@login_required
+def unread_messages(user)
+    msg = Message.objects.filter(sent_to=request.user).filter(is_read=False).count()
+
+
+"""
 
 @login_required
 def change_password(request):

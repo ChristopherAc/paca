@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Skickade</h2>
+
+  {% for msg in message_sent %}
+    <div>
+      <h3>{{msg.sent_to}}</h3>
+      <p>{{msg.sent_time}}</p>
+      <p>{{msg.text}}</p>
+    </div>
+  {% endfor %}
+{% endblock %}
