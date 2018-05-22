@@ -21,6 +21,13 @@ def check_spots(request):
     return JsonResponse({'data':job.spots_left()})
 
 @csrf_exempt
+def delete_pass(request):
+    data = request.POST
+    job = Job.objects.get(id=data['id'])
+    job.delete()
+    return JsonResponse({'data':'ok'})
+
+@csrf_exempt
 @login_required
 def profile(request):
     # Första sidan, login sida om användaren inte är inloggad.
