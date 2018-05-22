@@ -27,6 +27,8 @@ urlpatterns = [
     path('check_user', views.check_user, name='check_user'),
     # Ajax för att kolla om det finns platser kvar i ett pass
     path('check_spots', views.check_spots, name='check_spots'),
+    # ajax för att ta bort passen
+    path('delete_pass', views.delete_pass, name='delete_pass'),
     #Tillfällig URL för arbetspass
     path('jobs', views.jobs, name="jobs"),
     #tillfällig URL för att ta bort pass
