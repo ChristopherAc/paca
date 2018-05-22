@@ -36,6 +36,9 @@
           <li class="nav-item">
             <a class="nav-link disabled" href="{% url 'logout' %}">Logga ut</a>
           </li>
+          <span class="pull-right">
+              Användarnamn: <a class="nav-link active" href="/profile">{{request.user}}</a>
+          </span>
         </ul>
       </nav>
     </header>

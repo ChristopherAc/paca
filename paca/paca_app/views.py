@@ -22,6 +22,14 @@ def check_spots(request):
 
 @csrf_exempt
 @login_required
+def profile(request):
+    # Första sidan, login sida om användaren inte är inloggad.
+    #Är användaren inloggad så visas kalendern ( index.html )
+    if request.user.has_logged_in == False:
+        return redirect('changepassword/')
+    return render(request,'profile.html')
+
+@login_required
 def book_user(request):
     data = request.POST
     job = Job.objects.get(id=data['id'])
@@ -33,7 +41,6 @@ def book_user(request):
     else:
         print("Det finns INGA platser kvar.")
         return JsonResponse({'response':"Inga platser kvar."})
-
 
 def get_jobs(request):
     # Alla arbetspass hämtas och returneras
