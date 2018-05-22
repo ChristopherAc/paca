@@ -1,14 +1,7 @@
 {% extends 'base.html' %}
 {% block title %} Startsida {% endblock %}
 {% block head %}
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css" rel="stylesheet">
-  {% load static %}
-  <link href={% static "paca_app/calendar/fullcalendar.min.css"%} rel='stylesheet' />
-  <link href={% static "paca_app/calendar/fullcalendar.print.min.css"%} rel='stylesheet' media='print' />
-  <script src={% static "paca_app/calendar/moment.min.js"%}></script>
-  <script src={% static "paca_app/calendar/jquery.min.js"%}></script>
-  <script src={% static "paca_app/calendar/fullcalendar.min.js"%}></script>
+
 {% endblock %}
 
 {% block content %}
@@ -96,7 +89,6 @@
                       if (data.data == "m"){
                         $("#bokaPass").hide();
                         $("#deletePass").on("click", function() {
-                              alert("delete pass")
                               $.ajax({
                                   url: "/delete_pass",
                                   type: "POST",
@@ -109,7 +101,6 @@
                       else if (data.data == "a"){
                         $("#deletePass").hide();
                         $("#bokaPass").on("click", function() {
-                          alert("boka pass")
                           $.ajax({
                               url: "/book_user",
                               type: "POST",
@@ -122,16 +113,13 @@
                     })
                     },
 
-                  dayClick1: function( date, jsEvent) {
+                  dayClick: function( date, jsEvent) {
                     $.get("check_user", function(data){
                       if (data.data == "m"){
                         var chosenDate = date.format();
                         $("#start").val(chosenDate);
                         $("#end").val(chosenDate);
                         $("#eventModal").modal("show");
-                      }
-                      else if (data.data == "a"){
-                        alert("Du är inte manager")
                       }
                     });
                   },
@@ -176,7 +164,6 @@
                             spots,      // Testar ifall detta fungerar
                             end: end,
                             title: title,
-                            eventColor: eventColor
                         },
                         dataType: "JSON"
                     }).done(function(data){

@@ -37,6 +37,7 @@ def profile(request):
         return redirect('changepassword/')
     return render(request,'profile.html')
 
+@csrf_exempt
 @login_required
 def book_user(request):
     data = request.POST
