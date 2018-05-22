@@ -27,6 +27,7 @@ def index(request):
         return redirect('changepassword/')
     return render(request,'index.html')
 
+
 @login_required
 def edit_profile(request):
     if request.method == 'POST':
@@ -34,10 +35,10 @@ def edit_profile(request):
         if form.is_valid():
             form.save()
             return redirect('/edit_profile')
-    else:
-        form = EditProfileForm(instance=request.user)
-        args = {'form': form}
-        return render(request, 'edit_profile.html', args)
+
+    form = EditProfileForm(request.POST or None, instance=request.user)
+    args = {'form': form}
+    return render(request, 'edit_profile.html', args)
 
 @login_required
 def password(request):

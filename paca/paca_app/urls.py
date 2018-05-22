@@ -22,5 +22,5 @@ urlpatterns = [
     #tillfällig URL för att boka pass
     path('jobs/book/<int:id>', views.jobs_book, name="jobs_book"),
     #ändra lösenord i inställningar
-    path('password/', views.password, name="password")
+    path('/password', views.password, name="password")
 ]
