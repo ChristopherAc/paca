@@ -108,8 +108,10 @@ def edit_profile(request):
         form = EditProfileForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect('/edit_profile')
-
+            alert_msg = "Dina inställningar har nu sparats!"
+            return render(request, 'edit_profile.html',{'alert_msg':alert_msg, 'form':form})
+        else:
+            alert_msg=None
     form = EditProfileForm(request.POST or None, instance=request.user)
     args = {'form': form}
     return render(request, 'edit_profile.html', args)
