@@ -1,7 +1,11 @@
 from django.forms import ModelForm
+from django.contrib.auth.forms import UserChangeForm
+from django.contrib.auth.hashers import check_password
+from django import forms
 from .models import Message
 from .models import User
 from .models import Job
+
 
 # Form för Messages
 class MessageForm(ModelForm):
@@ -34,3 +38,25 @@ class JobForm(ModelForm):
         model = Job
 
         exclude = ['manager', 'worker']
+
+
+
+
+# Skapar ett formulär i inställningar med fälten email,
+class EditProfileForm(UserChangeForm):
+    password = forms.CharField(widget=forms.PasswordInput())
+
+
+
+    class Meta:
+        model = User
+
+        fields = ['email', 'first_name', 'last_name', 'phone']
+        exclude = []
+
+    def clean_password(self):
+        password = self.cleaned_data['password']
+        valid = self.instance.check_password(password)
+        if not valid:
+            raise forms.ValidationError('Invalid password')
+        return password

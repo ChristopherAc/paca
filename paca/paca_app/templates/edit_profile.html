@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+
+{% block header %}
+  {% load static %}
+  {{ block.super }}
+  <script src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
+  <script src={% static "JS/animations.js"%}></script>
+{% endblock %}
+{% block content %}
+{% load static %}
+  <form method="post" action=" " class="small-form">
+    {% if alert_msg %}
+      <div class="alert alert-success">
+        {{alert_msg | safe}}
+      </div>
+    {% endif %}
+
+   {% csrf_token %}
+   {{ form.as_p }}
+   <div>
+     <a href="{% url 'password' %}">Klicka här om du vill ändra lösenord</a>
+   </div>
+   <button type="submit">Spara</button>
+ </form>
+
+{% endblock %}

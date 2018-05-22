@@ -4,7 +4,7 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     # inställningar
-    path('settings/', views.settings, name='settings'),
+    path('edit_profile/', views.edit_profile, name='edit_profile'),
     # Nytt meddelande
     path('new_message/', views.new_message, name='new_message'),
     # Skickade meddelande
@@ -27,12 +27,16 @@ urlpatterns = [
     path('check_user', views.check_user, name='check_user'),
     # Ajax för att kolla om det finns platser kvar i ett pass
     path('check_spots', views.check_spots, name='check_spots'),
+    # ajax för att ta bort passen
+    path('delete_pass', views.delete_pass, name='delete_pass'),
     #Tillfällig URL för arbetspass
     path('jobs', views.jobs, name="jobs"),
     #tillfällig URL för att ta bort pass
     path('jobs/delete/<int:id>', views.jobs_delete, name="jobs_delete"),
     #tillfällig URL för att boka pass
     path('jobs/book/<int:id>', views.jobs_book, name="jobs_book"),
+    #ändra lösenord i inställningar
+    path('password', views.password, name="password"),
     #Profil sidan
     path('profile/', views.profile, name='profile')
 ]

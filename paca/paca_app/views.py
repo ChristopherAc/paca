@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.forms import PasswordChangeForm
 from django.http import JsonResponse
 from django.contrib import messages
+from .forms import EditProfileForm
 from .forms import MessageForm
 from .models import Message
 from .forms import UserForm
@@ -21,6 +22,13 @@ def check_spots(request):
     return JsonResponse({'data':job.spots_left()})
 
 @csrf_exempt
+def delete_pass(request):
+    data = request.POST
+    job = Job.objects.get(id=data['id'])
+    job.delete()
+    return JsonResponse({'data':'ok'})
+
+@csrf_exempt
 @login_required
 def profile(request):
     # Profil sida för användaren
@@ -28,6 +36,7 @@ def profile(request):
         return redirect('changepassword/')
     return render(request,'profile.html')
 
+@csrf_exempt
 @login_required
 def book_user(request):
     data = request.POST
@@ -92,9 +101,32 @@ def index(request):
         return redirect('changepassword/')
     return render(request,'index.html')
 
+
 @login_required
-def settings(request):
-    return render(request, 'settings.html')
+def edit_profile(request):
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            alert_msg = "Dina inställningar har nu sparats!"
+            return render(request, 'edit_profile.html',{'alert_msg':alert_msg, 'form':form})
+        else:
+            alert_msg=None
+    form = EditProfileForm(request.POST or None, instance=request.user)
+    args = {'form': form}
+    return render(request, 'edit_profile.html', args)
+
+@login_required
+def password(request):
+
+    form = PasswordChangeForm(request.user, request.POST or None)
+    if form.is_valid():
+        user = form.save()
+        request.user.has_logged_in = True
+        request.user.save()
+        return redirect('/')
+    return render(request, 'password.html', {'form':form})
+
 
 @login_required
 def jobs(request):
