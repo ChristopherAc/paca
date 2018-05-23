@@ -4,7 +4,7 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     # inställningar
-    path('edit_profile/', views.edit_profile, name='edit_profile'),
+    path('/edit_profile', views.edit_profile, name='edit_profile'),
     # Nytt meddelande
     path('new_message/', views.new_message, name='new_message'),
     # Skickade meddelande
