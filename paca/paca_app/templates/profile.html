@@ -4,21 +4,23 @@
 {% endblock %}
 
 {% block content %}
-<h2>Din Profil</h2>
-<div>
-<ul class="list-group">
-  <li class="list-group-item d-flex justify-content-between align-items-center">
-    Namn: {{request.user}}
-    <span class="badge badge-primary badge-pill">1</span>
-  </li>
-  <li class="list-group-item d-flex justify-content-between align-items-center">
-    Email: {{request.user.email}}
-    <span class="badge badge-primary badge-pill">2</span>
-  </li>
-  <li class="list-group-item d-flex justify-content-between align-items-center">
-    Telefonnummer: {{request.user.phone}}
-    <span class="badge badge-primary badge-pill">3</span>
-  </li>
-</ul>
+<div class="container">
+  <h3>Din Profil</h3>
+  <table id="tableheader" class="table table-striped">
+    <tbody>
+      <tr>
+        <td>Namn:</td>
+        <td> {{request.user}}</td>
+      </tr>
+      <tr>
+        <td>Email:</td>
+        <td> {{request.user.email}}</td>
+      </tr>
+      <tr>
+        <td>Telefonnummer:</td>
+        <td> {{request.user.phone}}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 {% endblock %}
