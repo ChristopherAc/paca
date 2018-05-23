@@ -39,7 +39,7 @@ input[type="submit"]{
 #FirstHead{
     line-height: 70px;
     height: 70px;
-    background-color: #0F0B00;
+    background:linear-gradient(141deg, #2cb5e8 0%, #055482 51%, #055482 75%);
     z-index: 500;
     top: 0;
     left: 0;
@@ -59,36 +59,27 @@ input[type="submit"]{
 }
 #Sort > li > a {
 	display: block;
-	color: gray;
-    font-size: 15px;
-    font-weight: 300;
-    letter-spacing: 2px;
+	color: white;
+  font-size: 15px;
+  font-weight: 400;
+  /* letter-spacing: 2px; */
 	padding: 0px 20px;
-    min-width: 70px;
+  min-width: 70px;
 	text-decoration: none;
 	transition: 0.4s all;
 }
 #Sort > li > a:hover {
-    font-weight: bold;
     background: rgba(0, 0, 0, 0.1);
+    color:white;
 }
 #Sort > li:hover > ul,
 #Sort > li:active > ul {
-    top: 70px;
     opacity: 1;
 }
 .dropdown-item{
-    color: gray;
-    padding: 10px 5px;
+    padding: 0 5px;
     text-align: left;
     display: block;
     transition: all 0.2s;
     font-size: 18px;
-}
-.dropdown-menu{
-    min-width: 20px;
-    padding-left: 9px;
-    padding-right: 8px;
-    padding-top:5px;
-    padding-bottom:5px;
 }
