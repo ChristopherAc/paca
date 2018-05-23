@@ -207,13 +207,15 @@ def recieved_messages(request):
     message_recieved = Message.objects.filter(sent_to=request.user)
     return render(request, 'recieved_messages.html', {'message_recieved':message_recieved})
 
-"""
+
 @login_required
-def unread_messages(user)
-    msg = Message.objects.filter(sent_to=request.user).filter(is_read=False).count()
-
-
-"""
+def count_unread_messages(request):
+    """ Räknar och sparar antal meddelande som är skickade till inloggade användare och inte lästa """
+    unread_msg = Message.objects.filter(sent_to=request.user).filter(is_read=False).count()
+    data = {
+        "unread_msg":unread_msg,
+    }
+    return JsonResponse(data)
 
 @login_required
 def change_password(request):

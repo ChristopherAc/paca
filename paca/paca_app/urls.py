@@ -11,6 +11,8 @@ urlpatterns = [
     path('sent_messages/', views.sent_messages, name='sent_messages'),
     # Mottagna meddelande
     path('recieved_messages/', views.recieved_messages, name='recieved_messages'),
+    #Antal olästa meddelande
+    path('unread_messages', views.count_unread_messages, name='unread_messages'),
     # Ändra lösenord ( första inloggningen )
     path('changepassword', views.change_password, name='changepassword'),
     # lägg till en arbetsgivare
