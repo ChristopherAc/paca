@@ -36,10 +36,59 @@ input[type="submit"]{
   font-size: 0.8em;
   font-style:italic;
 }
+#FirstHead{
+    line-height: 70px;
+    height: 70px;
+    background-color: #0F0B00;
+    z-index: 500;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+#FirstHead nav {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+#Sort{
+  margin: 0px;
+  padding: 0px;
+}
+#Sort > li {
+    float: left;
+    list-style: none;
+}
+#Sort > li > a {
+	display: block;
+	color: gray;
+    font-size: 15px;
+    font-weight: 300;
+    letter-spacing: 2px;
+	padding: 0px 20px;
+    min-width: 70px;
+	text-decoration: none;
+	transition: 0.4s all;
+}
+#Sort > li > a:hover {
+    font-weight: bold;
+    background: rgba(0, 0, 0, 0.1);
+}
+#Sort > li:hover > ul,
+#Sort > li:active > ul {
+    top: 70px;
+    opacity: 1;
+}
+.dropdown-item{
+    color: gray;
+    padding: 10px 5px;
+    text-align: left;
+    display: block;
+    transition: all 0.2s;
+    font-size: 18px;
+}
 .dropdown-menu{
-  min-width: 170px;
-  padding-left: 9px;
-  padding-right: 4px;
-  padding-top:5px;
-  padding-bottom:5px;
+    min-width: 20px;
+    padding-left: 9px;
+    padding-right: 8px;
+    padding-top:5px;
+    padding-bottom:5px;
 }
