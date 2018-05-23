@@ -2,30 +2,33 @@
 {% load static %}
 <html lang="sv">
   <head>
-
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="{% static "/stylesheets/overall.css" %}">
+    <meta charset="utf-8">
     <title>
       PACAs  {% block title %} - login {% endblock %}
     </title>
-    <meta charset="utf-8">
+    {% load static %}
+    <script src={% static "paca_app/calendar/moment.min.js"%}></script>
+    <script src={% static "paca_app/calendar/jquery.min.js"%}></script>
+    <script src={% static "paca_app/calendar/fullcalendar.min.js"%}></script>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css" rel="stylesheet">
-    {% load static %}
+
     <link href={% static "paca_app/calendar/fullcalendar.min.css"%} rel='stylesheet' />
     <link href={% static "paca_app/calendar/fullcalendar.print.min.css"%} rel='stylesheet' media='print' />
-    <script src={% static "paca_app/calendar/moment.min.js"%}></script>
-    <script src={% static "paca_app/calendar/jquery.min.js"%}></script>
-    <script src={% static "paca_app/calendar/fullcalendar.min.js"%}></script>
-    <script src="{% static "JS/update_unread_messages.js" %}"></script>
+
+    <link rel="stylesheet" href="{% static '/stylesheets/overall.css' %}">
     {% block head %}
     {% endblock %}
   </head>
