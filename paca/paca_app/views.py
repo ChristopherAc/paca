@@ -193,7 +193,7 @@ def jobs_book(request, id):
 @login_required
 def new_message(request):
     # Skapar en Modelform
-    form = MessageForm()
+    form = MessageForm(request.POST or None)
     if request.method == 'POST':
         # Hämta skickad formdata
         form = MessageForm(request.POST)
@@ -203,8 +203,10 @@ def new_message(request):
             new_message.sent_from = request.user
             new_message.save()
             form = MessageForm()
-            messages.success(request, "Ditt meddelande har skickats!")
-    return render(request,'new_message.html', {'form':form})
+            success_msg = "Ditt meddelande har skickats."
+        else:
+            success_msg = None
+    return render(request,'new_message.html', {'form':form, 'success_msg':success_msg})
 
 @login_required
 def sent_messages(request):
