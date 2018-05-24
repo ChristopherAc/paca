@@ -194,6 +194,7 @@ def jobs_book(request, id):
 def new_message(request):
     # Skapar en Modelform
     form = MessageForm(request.POST or None)
+    success_msg = None
     if request.method == 'POST':
         # Hämta skickad formdata
         form = MessageForm(request.POST)
