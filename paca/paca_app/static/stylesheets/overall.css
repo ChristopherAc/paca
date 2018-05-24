@@ -36,7 +36,7 @@ input[type="submit"]{
   font-size: 0.8em;
   font-style:italic;
 }
-#FirstHead{
+#firstHead{
     line-height: 70px;
     height: 70px;
     background:linear-gradient(141deg, #2cb5e8 0%, #055482 51%, #055482 75%);
@@ -45,7 +45,7 @@ input[type="submit"]{
     left: 0;
     width: 100%;
 }
-#FirstHead nav {
+#firstHead nav {
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -85,9 +85,20 @@ input[type="submit"]{
 #new-message-form{
   width:20vw;
   margin:5vh auto;
-  
+}
 #tableheader{
     width: auto;
     margin: auto;
     text-align: left;
+}
+#formEdit{
+    width:55vh;
+    margin:auto;
+    text-align:left;
+    background:white;
+    padding:10px;
+    border-radius:13px;
+    box-shadow:4px 4px 8px black;
+    margin-top:20vh;
+
 }

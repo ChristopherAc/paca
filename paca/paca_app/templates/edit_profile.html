@@ -11,7 +11,7 @@
 {% endblock %}
 {% block content %}
 {% load static %}
-  <form method="post" action=" " class="small-form">
+  <form method="post" id="formEdit" action=" " class="small-form">
     {% if alert_msg %}
       <div class="alert alert-success">
         {{alert_msg | safe}}
