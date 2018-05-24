@@ -3,10 +3,26 @@
 {% block title %} Nytt meddelande {% endblock %}
 
 {% block content %}
-  <form method="POST" action=" ">
+  <form method="POST" id="new-message-form" action=" ">
     {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Skicka">
+    {% if success_msg %}
+      <div class="alert alert-success">
+        {{success_msg | safe}}
+      </div>
+    {% endif %}
+    {%if form.non_field_errors or form.errors %}
+      <div class="alert alert-danger">
+        {{form.non_field_errors}}
+        {{form.old_password.errors}}
+        {{form.new_password2.errors}}
+      </div>
+    {% endif %}
+    {% load widget_tweaks %}
+    <label for="sent_to">Mottagare</label>
+    {% render_field form.sent_to placeholder="Mottagare" class="form-control form-margin"%}
+    <br/>
+    {% render_field form.text placeholder="Skriv ett meddelande" class="form-control form-margin"%}
+    <input type="submit" class="btn btn-success" value="Skicka">
   </form>
 
   {% for message in messages %}
