@@ -83,3 +83,8 @@ input[type="submit"]{
     transition: all 0.2s;
     font-size: 18px;
 }
+#tableheader{
+    width: auto;
+    margin: auto;
+    text-align: left;
+}
