@@ -43,6 +43,9 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-body">
+        <div style="display:none;" id="jobb-err-container2" class="alert alert-danger">
+          <p id="job-err-txt"></p>
+        </div>
         <button type="button" class="btn btn-primary" id="bokaPass">Boka pass</button>
         <button type="button" class="btn btn-primary" id="deletePass">Ta bort pass</button>
       </div>
@@ -56,7 +59,7 @@
           <div id='calendar'></div>
       </div>
 
-  
+
   <script>
 
   $('#calendar').fullCalendar({
