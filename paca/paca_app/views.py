@@ -12,7 +12,6 @@ from .models import User
 from .models import Manager
 from .models import Job
 from .forms import JobForm
-import datetime
 import json
 
 @csrf_exempt
@@ -42,16 +41,6 @@ def profile(request):
 def book_user(request):
     data = request.POST
     job = Job.objects.get(id=data['id'])
-    start = job.start
-    limit_1 = job.start + datetime.timedelta(hours=-11)
-    limit_2 = job.end + datetime.timedelta(hours=11)
-    #
-    # try:
-    #     interference = Job.objects.get(end__gt=limit1)
-    # except:
-    #     return JsonResponse({'response':"Inga platser kvar."})
-    print("start:{} forbidden before {}".format(start, limit_1))
-    return JsonResponse({'response':"Inga platser kvar."})
     if job.spots_left() == True:
         job.worker.add(request.user)
         job.save()
@@ -68,13 +57,13 @@ def get_jobs(request):
     except:
         manager = None
     if manager:
+        jobstest = Job.objects.filter(manager=manager)
         jobs = Job.objects.filter(manager=manager).values()
-        print("You are a manager!")
 
     else:
         managers = Manager.objects.get(manages=request.user)
-        jobs = Job.objects.filter(manager=managers).values()
-        print("You are not a manager we got this: {} because {} manages you".format(jobs, managers))
+        jobs = Job.objects.filter(manager=manager).values()
+
     list_jobs = list(jobs)
     return JsonResponse(list_jobs,safe=False)
 
@@ -102,7 +91,7 @@ def save_jobs(request):
     new_job.save()
     new_job.manager.add(manager)
     new_job.save()
-    print(">> {} is saved with {} as manager".format(new_job, new_job.manager))
+
     return JsonResponse({'start':new_job.start, 'end':new_job.end, 'title':new_job.title})
 @login_required
 def index(request):
@@ -115,9 +104,13 @@ def index(request):
 
 @login_required
 def edit_profile(request):
-    if request.method == 'POST':
-        form = EditProfileForm(request.POST, instance=request.user)
+    if request.method == 'POST' or request.FILES:
+        form = EditProfileForm(request.POST, request.FILES, instance=request.user)
+
         if form.is_valid():
+            form.save(commit=False)
+
+
             form.save()
             alert_msg = "Dina inställningar har nu sparats!"
             return render(request, 'edit_profile.html',{'alert_msg':alert_msg, 'form':form})
@@ -193,8 +186,7 @@ def jobs_book(request, id):
 @login_required
 def new_message(request):
     # Skapar en Modelform
-    form = MessageForm(request.POST or None)
-    success_msg = None
+    form = MessageForm()
     if request.method == 'POST':
         # Hämta skickad formdata
         form = MessageForm(request.POST)
@@ -204,10 +196,8 @@ def new_message(request):
             new_message.sent_from = request.user
             new_message.save()
             form = MessageForm()
-            success_msg = "Ditt meddelande har skickats."
-        else:
-            success_msg = None
-    return render(request,'new_message.html', {'form':form, 'success_msg':success_msg})
+            messages.success(request, "Ditt meddelande har skickats!")
+    return render(request,'new_message.html', {'form':form})
 
 @login_required
 def sent_messages(request):

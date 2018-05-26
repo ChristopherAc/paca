@@ -5,7 +5,7 @@
 
 {% block content %}
 <div class="container">
-  <h3>Din Profil</h3>
+  <h2>Din Profil</h2>
   <table id="tableheader" class="table table-striped">
     <tbody>
       <tr>
@@ -22,5 +22,14 @@
       </tr>
     </tbody>
   </table>
+</div>
+<div class="container">
+    {% if user.image %}
+        <img src="{{ request.user.image.url }}" class="rounded mx-auto d-block" width="300">
+    {% else %}
+        <h4><a href="{% url 'edit_profile' %}">ladda upp bild</a></h4>
+    {% endif %}
+</div>
+
 </div>
 {% endblock %}
