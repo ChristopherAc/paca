@@ -165,58 +165,6 @@ def password(request):
         return redirect('/')
     return render(request, 'password.html', {'form':form})
 
-
-@login_required
-def jobs(request):
-    # Tillfällig view fram tills kalendern är färdig.
-
-    # Kontrollera om den inloggade användaren är en arbetsgivare
-    try:
-        manager = Manager.objects.get(user=request.user)
-    except:
-        manager= False
-
-    # Om användaren är en arbetsgivare. Så ska ett formulär för att lägga till arbetspass finnas.
-    if manager:
-        type = "manager"
-        jobForm = JobForm(request.POST or None)
-        if request.method == 'POST':
-            if jobForm.is_valid():
-                jobFo = jobForm.save()
-                new_job.manager.add(manager)
-                new_job.save()
-        jobs = Job.objects.filter(manager=manager)
-        return render(request, 'jobs.html',{'jobForm':jobForm,'jobs':jobs, 'type':type})
-
-    # Om användaren inte är en arbetsgivare så skall endast passen synas.
-    else:
-        type = "worker"
-        users_manager = Manager.objects.get(manages=request.user)
-        jobs = Job.objects.filter(manager=users_manager).exclude(worker=request.user)
-        bookings = Job.objects.filter(manager=users_manager).filter(worker=request.user)
-        return render(request, 'jobs.html',{'jobs':jobs, 'type':type,'bookings':bookings})
-
-@login_required
-def jobs_delete(request,id):
-    # Endast en arbetsgivares ska kunna ta bort pass.
-    try:
-        manager = Manager.objects.get(user=request.user)
-    except:
-        return redirect('/jobs')
-
-    target = Job.objects.get(id=id)
-    target.delete()
-    return redirect('/jobs')
-
-@login_required
-def jobs_book(request, id):
-    # Arbetare bokar upp sig på jobb
-    user=request.user
-    job = Job.objects.get(id=id)
-    job.worker.add(user)
-    job.save()
-    return redirect('/jobs')
-
 @login_required
 def new_message(request):
     # Skapar en Modelform

@@ -37,12 +37,6 @@ urlpatterns = [
     path('delete_pass', views.delete_pass, name='delete_pass'),
     # url för att avboka anställd från pass
     path('remove_from_job/<int:job_id>/<int:user_id>', views.remove_from_job, name='remove_from_job'),
-    #Tillfällig URL för arbetspass
-    path('jobs', views.jobs, name="jobs"),
-    #tillfällig URL för att ta bort pass
-    path('jobs/delete/<int:id>', views.jobs_delete, name="jobs_delete"),
-    #tillfällig URL för att boka pass
-    path('jobs/book/<int:id>', views.jobs_book, name="jobs_book"),
     #ändra lösenord i inställningar
     path('password', views.password, name="password"),
     #Profil sidan
