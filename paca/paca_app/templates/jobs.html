@@ -5,7 +5,7 @@
 
 {% block content %}
   {% if type == 'manager' %}
-    <form method="POST" style="width:20vw;margin:10vh 0px 0">
+    <form method="POST" id="formEdit" style="width:20vw;margin:10vh 0px 0">
       {% csrf_token %}
       {{jobForm.as_p}}
       <input type="submit" class="btn btn-success">
