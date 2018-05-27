@@ -48,11 +48,13 @@ class EditProfileForm(UserChangeForm):
 
 
 
+
     class Meta:
         model = User
 
-        fields = ['email', 'first_name', 'last_name', 'phone']
+        fields = ['email', 'first_name', 'last_name', 'phone', 'image']
         exclude = []
+
 
     def clean_password(self):
         password = self.cleaned_data['password']

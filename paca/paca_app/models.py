@@ -45,6 +45,7 @@ class User(AbstractUser):
     phone = models.CharField(max_length=12)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
+    image = models.ImageField(upload_to="profile_image", blank=True)
 
     """ Nedan är för att förändra grundklassen som är inbyggd i Django """
     username = None
