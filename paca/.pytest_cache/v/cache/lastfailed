@@ -1,0 +1,4 @@
+{
+  "paca_app/tests/test_views.py::TestEditProfile::()::test_authenticated_user_first_login": true,
+  "paca_app/tests/test_views.py::TestIndex::()::test_anonymous": true
+}

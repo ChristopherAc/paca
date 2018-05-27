@@ -127,6 +127,7 @@ def save_jobs(request):
     new_job.save()
 
     return JsonResponse({'start':new_job.start, 'end':new_job.end, 'title':new_job.title})
+
 @login_required
 def index(request):
     # Första sidan, login sida om användaren inte är inloggad.

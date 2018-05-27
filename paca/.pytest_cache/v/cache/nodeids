@@ -1,0 +1,16 @@
+[
+  "paca_app/tests/test_models.py::TestUser::()::test_model",
+  "paca_app/tests/test_models.py::TestUser::()::test_str_",
+  "paca_app/tests/test_models.py::TestManager::()::test_model",
+  "paca_app/tests/test_models.py::TestManager::()::test_str_",
+  "paca_app/tests/test_models.py::TestMessage::()::test_model",
+  "paca_app/tests/test_models.py::TestMessage::()::test_str_",
+  "paca_app/tests/test_models.py::TestJob::()::test_model",
+  "paca_app/tests/test_models.py::TestJob::()::test_spots_left_while_spots_left",
+  "paca_app/tests/test_models.py::TestJob::()::test_spots_left_while_spots_filled",
+  "paca_app/tests/test_models.py::TestJob::()::test_spots_left_while_spots_equal",
+  "paca_app/tests/test_models.py::TestJob::()::test_str_",
+  "paca_app/tests/test_views.py::TestIndex::()::test_non_authenticated_user",
+  "paca_app/tests/test_views.py::TestIndex::()::test_authenticated_user",
+  "paca_app/tests/test_views.py::TestIndex::()::test_authenticated_user_first_login"
+]
