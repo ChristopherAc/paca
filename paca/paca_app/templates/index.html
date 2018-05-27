@@ -46,6 +46,8 @@
         <div style="display:none;" id="jobb-err-container2" class="alert alert-danger">
           <p id="job-err-txt"></p>
         </div>
+        <table id="bookings">
+        </table>
         <button type="button" class="btn btn-primary" id="bokaPass">Boka pass</button>
         <button type="button" class="btn btn-primary" id="deletePass">Ta bort pass</button>
       </div>
@@ -84,6 +86,27 @@
                     $('#jobb-err-container2').html('')
                     $.get("check_user", function(data){
                       if (data.data == "m"){
+                        $.ajax({
+                            url: "/check_booked",
+                            type: "POST",
+                            data: {
+                                id: calEvent.id,
+                            },
+                          }).done(function(data){
+                            console.log(data)
+                            if(data == null){
+                              console.log('Inga bokningar.');
+                            }
+                            else if(data) {
+                              for( var i in data ){
+                                console.log(data[i])
+                                // $('#bookings').html("<td><a href='/remove/" + user['id']> + user['first_name'] + "</a></td>")
+                                $('#bookings').html("<tr><td>" + data[i]['first_name'] + " " + data[i]['last_name']  + "</td> <td> <a href='remove_from_job/" + calEvent.id + "/" + data[i]['id'] + "' > Avboka </a></tr>")
+                              }
+
+                            }
+                          });
+
                         $("#bokaPass").hide();
                         $("#deletePass").on("click", function() {
                               $.ajax({

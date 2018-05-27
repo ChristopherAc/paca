@@ -14,7 +14,18 @@ from .models import Job
 from .forms import JobForm
 import json
 import datetime
-
+@csrf_exempt
+def check_booked(request):
+    data = request.POST
+    job = Job.objects.get(id=data['id'])
+    print(job)
+    bookings = job.worker.all().values()
+    if not bookings:
+        return JsonResponse(None, safe=False)
+    list_booking = list(bookings)
+    # joblist = list(job)
+    # print(job)
+    return JsonResponse(list_booking,safe=False)
 @csrf_exempt
 def check_spots(request):
     data = request.POST
@@ -22,7 +33,11 @@ def check_spots(request):
         return JsonResponse({'data':'booked'})
     job = Job.objects.get(id=data['id'])
     return JsonResponse({'data':job.spots_left()})
-
+def remove_from_job(request, job_id, user_id):
+    job = Job.objects.get(id=job_id)
+    user = User.objects.get(id=user_id)
+    job.worker.remove(user)
+    return redirect('/')
 @csrf_exempt
 def delete_pass(request):
     data = request.POST

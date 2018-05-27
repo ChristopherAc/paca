@@ -27,12 +27,16 @@ urlpatterns = [
     path('save_jobs', views.save_jobs, name='save_jobs'),
     #ajax för att boka in användare på pass
     path('book_user', views.book_user, name="book_user"),
+    # Hämmta alla användare som är bokade på ett pass.
+    path('check_booked', views.check_booked, name="check_booked"),
     #ajax för att kolla användartyp
     path('check_user', views.check_user, name='check_user'),
     # Ajax för att kolla om det finns platser kvar i ett pass
     path('check_spots', views.check_spots, name='check_spots'),
     # ajax för att ta bort passen
     path('delete_pass', views.delete_pass, name='delete_pass'),
+    # url för att avboka anställd från pass
+    path('remove_from_job/<int:job_id>/<int:user_id>', views.remove_from_job, name='remove_from_job'),
     #Tillfällig URL för arbetspass
     path('jobs', views.jobs, name="jobs"),
     #tillfällig URL för att ta bort pass
