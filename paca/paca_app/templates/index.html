@@ -92,6 +92,14 @@
                                   data: {
                                       id: calEvent.id,
                                     },
+                                  }).done(function(data){
+                                      if (data.data == 'ok'){
+                                        $('#calendar').fullCalendar( 'removeEventSource', '/get_jobs' )
+                                        $('#calendar').fullCalendar( 'addEventSource', '/get_jobs' )
+                                      }
+                                      else {
+                                        alert("Något gick fel.")
+                                      }
                                   });
                             })
                       }
