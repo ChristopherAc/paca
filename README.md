@@ -21,6 +21,12 @@
         settings.html
       paca_app/teplates/registration/login.html
 
+      Filer för whiteboxtestning
+      paca/paca/test_settings.py
+      paca/spaca_app/tests
+        test_models.py
+        test_views.py
+
   Resterande filer är autogenererade av antingen Django eller Fullcalendar
   Använd istället länken "Arbetspass" i headern för att nå dessa funktioner.
 
@@ -38,8 +44,16 @@ Django==2.0.4
   eller
   'pip install django'
 
-3. Installera django-widget-widget_tweaks
+3. Installera bibliotek som behövs för att applikationen ska fungera perfekt.
+
+  Uppmärksamma att ni kan behöva använda olika sätt för att installera. exempelvis pip3 install, python3 install osv.
+  använd google.
   pip install django-widget-tweaks
+  pip install v pillow==5.0
+  pip install pytest
+  pip install pytest-django
+  pip install pytest-cov
+  pip install mixer
 
 4. navigera till den mappen i projektet där filen "manage.py" ligger.
 
@@ -55,6 +69,11 @@ Django==2.0.4
 7. Öppna din favoritwebläsare, skriv  http://127.0.0.1:8000/ i adressfältet.
 
 8. Du kan nu logga in på vår sida. Nedan i detta dokument finns det användare du kan använda dig av. Det är helt okej att skapa egna användare.
+
+## instruktioner för att testa applikationen med unittester
+1. Navigera till /paca/paca (i terminalen )
+
+2. Skriv py.test
 
 ## Användare
 användarnamn: stoff@paca.se
