@@ -13,11 +13,13 @@ from .models import Manager
 from .models import Job
 from .forms import JobForm
 import json
+import datetime
 
 @csrf_exempt
 def check_spots(request):
     data = request.POST
-    print(data)
+    if Job.objects.filter(id=data['id']).filter(worker=request.user).exists():
+        return JsonResponse({'data':'booked'})
     job = Job.objects.get(id=data['id'])
     return JsonResponse({'data':job.spots_left()})
 
@@ -39,8 +41,25 @@ def profile(request):
 @csrf_exempt
 @login_required
 def book_user(request):
+    # hämta passet med ajax datan.
     data = request.POST
     job = Job.objects.get(id=data['id'])
+
+    # Kolla om användaren redan är bokad på passet.
+    this_job_with_this_user = Job.objects.filter(id=data['id']).filter(worker=request.user).exists()
+    if this_job_with_this_user:
+        return JsonResponse({'response':'Du är redan inbokad på detta passet'})
+    print(this_job_with_this_user)
+    # Fånga upp tidsspektrumet för att kolla 11-timmars reglen.
+    limit_1 = job.start + datetime.timedelta(hours=-11)
+    limit_2 = job.end + datetime.timedelta(hours=11)
+    intrusive_jobs1 = Job.objects.filter(end__range=[limit_1, limit_2]).exclude(id=job.id).filter(worker=request.user).exists()
+    intrusive_jobs2 = Job.objects.filter(start__range=[limit_1, limit_2]).exclude(id=job.id).filter(worker=request.user).exists()
+
+    if intrusive_jobs1 and intrusive_jobs2:
+        return JsonResponse({'response':' Detta pass är i konflikt med ett pass du redan är inbokad på','id':data['id']})
+
+    # Kolla om det finns platser kvar på passet.
     if job.spots_left() == True:
         job.worker.add(request.user)
         job.save()
@@ -61,7 +80,7 @@ def get_jobs(request):
         jobs = Job.objects.filter(manager=manager).values()
 
     else:
-        managers = Manager.objects.get(manages=request.user)
+        manager = Manager.objects.get(manages=request.user)
         jobs = Job.objects.filter(manager=manager).values()
 
     list_jobs = list(jobs)

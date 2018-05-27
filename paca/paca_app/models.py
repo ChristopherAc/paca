@@ -93,9 +93,9 @@ class Job(models.Model):
         spots = self.spots
         workers = self.worker.count()
         if workers < spots:
-            return True
+            return 'free'
         else:
-            return False
+            return 'full'
 
     def __str__(self):
         """ Retunerar alltid namnet på arbetspasset """

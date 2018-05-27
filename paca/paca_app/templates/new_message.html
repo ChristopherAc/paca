@@ -6,11 +6,11 @@
 <h2>Meddelande</h2>
   <form method="POST" id="new-message-form" action=" ">
     {% csrf_token %}
-    {% if success_msg %}
-      <div class="alert alert-success">
-        {{success_msg | safe}}
+    {% for message in messages %}
+      <div class="alert alert-success" role="alert">
+        {{ message }}
       </div>
-    {% endif %}
+    {% endfor %}
     {%if form.non_field_errors or form.errors %}
       <div class="alert alert-danger">
         {{form.non_field_errors}}
@@ -26,9 +26,5 @@
     <input type="submit" class="btn btn-success" value="Skicka">
   </form>
 
-  {% for message in messages %}
-    <div class="alert alert-success" role="alert">
-      {{ message }}
-    </div>
-  {% endfor %}
+
 {% endblock %}

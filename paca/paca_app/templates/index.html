@@ -80,6 +80,8 @@
 
                   eventClick: function(calEvent, jsEvent, view) {
                     $("#bookModal").modal("show"),
+                    $('#jobb-err-container2').fadeOut()
+                    $('#jobb-err-container2').html('')
                     $.get("check_user", function(data){
                       if (data.data == "m"){
                         $("#bokaPass").hide();
@@ -102,6 +104,9 @@
                               data: {
                                   id: calEvent.id,
                               },
+                            }).done(function(data){
+                              $('#jobb-err-container2').fadeIn()
+                              $('#jobb-err-container2').html(data['response'])
                             });
                         })
                       }
@@ -128,11 +133,14 @@
                           id: event.id,
                       },
                     }).done(function(data){
-                        if (data.data == true){
+                        if (data.data == 'free'){
                           element.css('background-color', '#2D882D');
                         }
-                        else{
+                        else if (data.data == 'full'){
                           element.css('background-color', '#AA3939');
+                        }
+                        else if (data.data == 'booked'){
+                          element.css('background-color', '#008081');
                         }
                     });
 
