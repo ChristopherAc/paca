@@ -119,7 +119,6 @@
                                       if (data.data == 'ok'){
                                         $('#calendar').fullCalendar( 'removeEventSource', '/get_jobs' );
                                         $('#calendar').fullCalendar( 'addEventSource', '/get_jobs' );
-                                        $("#deletePass").hide();
                                         $("#bookModal").modal("hide")
                                       }
                                       else {
@@ -203,7 +202,6 @@
                         },
                         dataType: "JSON"
                     }).done(function(data){
-
                         $('#calendar').fullCalendar( 'removeEventSource', '/get_jobs' );
                         $('#calendar').fullCalendar( 'addEventSource', '/get_jobs' );
                         $('#jobb-err-container').fadeOut();
