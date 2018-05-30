@@ -204,7 +204,8 @@
                         dataType: "JSON"
                     }).done(function(data){
 
-                        $("#calendar").fullCalendar("renderEvent", data);
+                        $('#calendar').fullCalendar( 'removeEventSource', '/get_jobs' );
+                        $('#calendar').fullCalendar( 'addEventSource', '/get_jobs' );
                         $('#jobb-err-container').fadeOut();
                         $("#eventModal").modal("hide");
                     });
